@@ -1,0 +1,6 @@
+{
+  "name": "Jessy Portfolio",
+  "description": "Premium interactive portfolio website for Jessy Walter, UX/UI designer and branding specialist, featuring smooth motion effects, customized widgets, and custom mockup designs.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
