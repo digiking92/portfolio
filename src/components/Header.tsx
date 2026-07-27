@@ -1,190 +1,164 @@
 import { useState, useEffect } from 'react';
-import { Menu, X, Globe } from 'lucide-react';
+import { NavLink, Link, useLocation } from 'react-router-dom';
+import { Menu, X, Sun, Moon } from 'lucide-react';
+import { useTheme } from '../context/ThemeContext';
 
 interface HeaderProps {
   onContactClick: () => void;
 }
 
+const NAV = [
+  { to: '/', label: 'Home', end: true },
+  { to: '/about', label: 'About' },
+  { to: '/services', label: 'Services' },
+  { to: '/work', label: 'Work' },
+  { to: '/contact', label: 'Contact' },
+];
+
 export default function Header({ onContactClick }: HeaderProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState('home');
+  const location = useLocation();
+  const { isDark, toggleTheme } = useTheme();
+
+  const onHome = location.pathname === '/';
+  const overDarkHero = onHome && !isScrolled;
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-
-      // Simple active section detection
-      const sections = ['home', 'portfolio', 'services', 'contact-trigger'];
-      const scrollPosition = window.scrollY + 100;
-
-      for (const section of sections) {
-        const element = document.getElementById(section);
-        if (element) {
-          const top = element.offsetTop;
-          const height = element.offsetHeight;
-          if (scrollPosition >= top && scrollPosition < top + height) {
-            if (section === 'contact-trigger') {
-              setActiveSection('contact');
-            } else if (section === 'services') {
-              setActiveSection('home'); // Services counts as home page or general skills
-            } else {
-              setActiveSection(section);
-            }
-          }
-        }
-      }
-    };
-
+    const handleScroll = () => setIsScrolled(window.scrollY > 40);
+    handleScroll();
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const scrollToSection = (id: string) => {
+  useEffect(() => {
     setIsMobileMenuOpen(false);
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+    window.scrollTo(0, 0);
+  }, [location.pathname]);
+
+  const linkClass = ({ isActive }: { isActive: boolean }) => {
+    if (overDarkHero) {
+      return `relative transition-colors duration-200 cursor-pointer py-1 ${
+        isActive ? 'text-white font-semibold' : 'text-white/65 hover:text-white'
+      }`;
     }
+    return `relative transition-colors duration-200 hover:text-fg cursor-pointer py-1 ${
+      isActive ? 'text-fg font-semibold' : 'text-muted'
+    }`;
   };
 
   return (
     <header
       className={`fixed top-0 left-0 w-full z-40 transition-all duration-300 ${
         isScrolled
-          ? 'bg-bg-dark/80 backdrop-blur-md py-4 border-b border-gray-900/50 shadow-lg'
+          ? 'backdrop-blur-md py-4 border-b border-line shadow-sm'
           : 'bg-transparent py-6'
       }`}
-      id="main-header"
+      style={isScrolled ? { backgroundColor: 'var(--header-bg)' } : undefined}
     >
       <div className="max-w-7xl mx-auto px-6 md:px-12 flex items-center justify-between">
-        {/* Logo */}
-        <button
-          onClick={() => scrollToSection('home')}
-          className="flex items-center gap-2 group cursor-pointer"
-          id="header-logo-btn"
-        >
+        <Link to="/" className="flex items-center gap-2 group cursor-pointer">
           <div className="relative w-8 h-8 rounded-full border border-brand-green flex items-center justify-center overflow-hidden">
             <div className="w-5 h-5 rounded-full bg-brand-green opacity-80 group-hover:scale-110 transition-transform duration-300" />
             <div className="absolute inset-0 bg-gradient-to-tr from-brand-green/20 to-transparent" />
           </div>
-          <span className="font-display font-bold text-xl tracking-wider text-white">
-            JESSY
+          <span
+            className={`font-display font-bold text-xl tracking-wider transition-colors ${
+              overDarkHero ? 'text-white' : 'text-fg'
+            }`}
+          >
+            CTOP
           </span>
-        </button>
+        </Link>
 
-        {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center gap-8 text-sm font-sans font-medium text-gray-400">
-          <button
-            onClick={() => scrollToSection('home')}
-            className={`transition-colors duration-200 hover:text-white cursor-pointer relative py-1 ${
-              activeSection === 'home' ? 'text-white font-semibold' : ''
-            }`}
-          >
-            Home
-            {activeSection === 'home' && (
-              <span className="absolute bottom-0 left-0 w-full h-0.5 bg-brand-green rounded-full" />
-            )}
-          </button>
-          <button
-            onClick={() => scrollToSection('portfolio')}
-            className={`transition-colors duration-200 hover:text-white cursor-pointer relative py-1 ${
-              activeSection === 'portfolio' ? 'text-white font-semibold' : ''
-            }`}
-          >
-            Portfolio
-            {activeSection === 'portfolio' && (
-              <span className="absolute bottom-0 left-0 w-full h-0.5 bg-brand-green rounded-full" />
-            )}
-          </button>
-          <button
-            onClick={onContactClick}
-            className={`transition-colors duration-200 hover:text-white cursor-pointer relative py-1 ${
-              activeSection === 'contact' ? 'text-white font-semibold' : ''
-            }`}
-          >
-            Contact
-            {activeSection === 'contact' && (
-              <span className="absolute bottom-0 left-0 w-full h-0.5 bg-brand-green rounded-full" />
-            )}
-          </button>
+        <nav className="hidden lg:flex items-center gap-8 text-sm font-sans font-medium">
+          {NAV.map((item) => (
+            <NavLink key={item.to} to={item.to} end={item.end} className={linkClass}>
+              {({ isActive }) => (
+                <>
+                  {item.label}
+                  {isActive && (
+                    <span className="absolute bottom-0 left-0 w-full h-0.5 bg-brand-green rounded-full" />
+                  )}
+                </>
+              )}
+            </NavLink>
+          ))}
         </nav>
 
-        {/* Right CTA / Options */}
-        <div className="hidden md:flex items-center gap-4">
+        <div className="hidden lg:flex items-center gap-3">
           <button
-            className="p-2.5 rounded-full bg-[#181B22] border border-gray-800 text-brand-yellow hover:text-brand-yellow-hover hover:border-gray-700 transition-colors duration-200"
-            aria-label="Language / Region"
-            id="lang-selector"
+            onClick={toggleTheme}
+            className={`p-2.5 rounded-full border transition-colors cursor-pointer ${
+              overDarkHero
+                ? 'bg-white/10 border-white/20 text-white hover:border-brand-green/50'
+                : 'bg-surface border-line text-fg hover:border-line-strong'
+            }`}
+            aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+            title={isDark ? 'Light mode' : 'Dark mode'}
           >
-            <Globe className="w-4 h-4" />
+            {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
           </button>
           <button
             onClick={onContactClick}
-            className="px-6 py-2.5 bg-brand-yellow hover:bg-brand-yellow-hover text-black font-sans font-bold text-sm rounded-md transition-all duration-200 hover:-translate-y-0.5 shadow-md shadow-brand-yellow/10 cursor-pointer"
-            id="header-contact-btn"
+            className="px-6 py-2.5 bg-brand-yellow hover:bg-brand-yellow-hover text-brand-navy font-sans font-bold text-sm rounded-md transition-all duration-200 hover:-translate-y-0.5 shadow-md shadow-brand-yellow/10 cursor-pointer"
           >
-            Contact Me
+            Book a Strategy Call
           </button>
         </div>
 
-        {/* Mobile Menu Button */}
-        <div className="flex md:hidden items-center gap-3">
+        <div className="lg:hidden flex items-center gap-2">
           <button
-            className="p-2 rounded-lg bg-[#181B22] border border-gray-800 text-brand-yellow"
-            aria-label="Language / Region"
-            id="mobile-lang-selector"
+            onClick={toggleTheme}
+            className={`p-2 rounded-lg border cursor-pointer ${
+              overDarkHero
+                ? 'bg-white/10 border-white/20 text-white'
+                : 'bg-surface border-line text-fg'
+            }`}
+            aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
           >
-            <Globe className="w-4.5 h-4.5" />
+            {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
           </button>
           <button
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="p-2 text-gray-400 hover:text-white rounded-lg bg-[#181B22] border border-gray-800"
+            onClick={() => setIsMobileMenuOpen((v) => !v)}
+            className={`p-2 rounded-lg border cursor-pointer ${
+              overDarkHero
+                ? 'bg-white/10 border-white/20 text-white'
+                : 'bg-surface border-line text-fg'
+            }`}
             aria-label="Toggle menu"
-            id="mobile-menu-toggle"
           >
-            {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
         </div>
       </div>
 
-      {/* Mobile Menu Panel */}
       {isMobileMenuOpen && (
-        <div className="absolute top-full left-0 w-full bg-bg-dark border-b border-gray-900/80 px-6 py-8 flex flex-col gap-6 md:hidden z-30 shadow-2xl animate-in fade-in slide-in-from-top-4 duration-200">
+        <div
+          className="lg:hidden absolute top-full left-0 w-full backdrop-blur-xl border-b border-line px-6 py-6 space-y-4"
+          style={{ backgroundColor: 'var(--header-bg)' }}
+        >
+          {NAV.map((item) => (
+            <NavLink
+              key={item.to}
+              to={item.to}
+              end={item.end}
+              className={({ isActive }) =>
+                `block text-left text-lg font-medium py-2 ${
+                  isActive
+                    ? 'text-brand-green border-l-2 border-brand-green pl-3'
+                    : 'text-muted pl-3'
+                }`
+              }
+            >
+              {item.label}
+            </NavLink>
+          ))}
           <button
-            onClick={() => scrollToSection('home')}
-            className={`text-left text-lg font-medium py-2 ${
-              activeSection === 'home' ? 'text-brand-green border-l-2 border-brand-green pl-3' : 'text-gray-400 pl-3'
-            }`}
+            onClick={onContactClick}
+            className="w-full py-3.5 bg-brand-yellow text-brand-navy font-sans font-bold text-center rounded-xl cursor-pointer"
           >
-            Home
-          </button>
-          <button
-            onClick={() => scrollToSection('portfolio')}
-            className={`text-left text-lg font-medium py-2 ${
-              activeSection === 'portfolio' ? 'text-brand-green border-l-2 border-brand-green pl-3' : 'text-gray-400 pl-3'
-            }`}
-          >
-            Portfolio
-          </button>
-          <button
-            onClick={() => {
-              setIsMobileMenuOpen(false);
-              onContactClick();
-            }}
-            className="text-left text-lg font-medium py-2 text-gray-400 pl-3"
-          >
-            Contact
-          </button>
-          <button
-            onClick={() => {
-              setIsMobileMenuOpen(false);
-              onContactClick();
-            }}
-            className="w-full py-3.5 bg-brand-yellow text-black font-sans font-bold text-center rounded-xl cursor-pointer"
-            id="mobile-contact-btn"
-          >
-            Contact Me
+            Book a Strategy Call
           </button>
         </div>
       )}

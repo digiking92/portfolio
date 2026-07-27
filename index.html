@@ -1,13 +1,32 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="light">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>My Google AI Studio App</title>
+    <meta
+      name="description"
+      content="Ctop Digital Solution — a digital growth and transformation company helping ambitious businesses grow through strategy, technology, and marketing."
+    />
+    <title>Ctop Digital | Digital Growth & Transformation</title>
+    <script>
+      (function () {
+        try {
+          localStorage.removeItem('ctop-theme');
+          var t = localStorage.getItem('ctop-color-mode');
+          var theme = t === 'dark' ? 'dark' : 'light';
+          document.documentElement.setAttribute('data-theme', theme);
+          document.documentElement.style.colorScheme = theme;
+          if (theme === 'dark') document.documentElement.classList.add('dark');
+          else document.documentElement.classList.remove('dark');
+        } catch (e) {
+          document.documentElement.setAttribute('data-theme', 'light');
+          document.documentElement.style.colorScheme = 'light';
+        }
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
-
