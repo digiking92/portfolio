@@ -31,7 +31,7 @@ const NODES = LABELS.map((label, i) => {
   };
 });
 
-/** Connected growth system diagram — high contrast on navy */
+/** Connected growth system diagram, high contrast on navy */
 export default function SolutionVisual() {
   return (
     <div className="relative w-full aspect-square max-w-[480px] mx-auto">

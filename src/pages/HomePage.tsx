@@ -3,6 +3,8 @@ import TrustBar from '../components/home/TrustBar';
 import Problem from '../components/home/Problem';
 import Solution from '../components/home/Solution';
 import Capabilities from '../components/home/Capabilities';
+import InstantShowcase from '../components/home/InstantShowcase';
+import SiteScopeStrip from '../components/home/SiteScopeStrip';
 import Process from '../components/home/Process';
 import CaseStudiesPreview from '../components/home/CaseStudiesPreview';
 import WhyCtop from '../components/home/WhyCtop';
@@ -24,23 +26,25 @@ export default function HomePage({ onContactClick }: HomePageProps) {
         <Problem />
       </FadeUp>
       <FadeUp>
-        <Solution />
+        <Solution onContactClick={onContactClick} />
       </FadeUp>
-      <Capabilities />
+      <Capabilities onContactClick={onContactClick} />
+      <InstantShowcase onContactClick={onContactClick} />
+      <SiteScopeStrip onContactClick={onContactClick} />
       <FadeUp>
-        <Process />
-      </FadeUp>
-      <FadeUp>
-        <CaseStudiesPreview />
-      </FadeUp>
-      <FadeUp>
-        <WhyCtop />
+        <Process onContactClick={onContactClick} />
       </FadeUp>
       <FadeUp>
-        <Testimonials />
+        <CaseStudiesPreview onContactClick={onContactClick} />
       </FadeUp>
       <FadeUp>
-        <FAQ />
+        <WhyCtop onContactClick={onContactClick} />
+      </FadeUp>
+      <FadeUp>
+        <Testimonials onContactClick={onContactClick} />
+      </FadeUp>
+      <FadeUp>
+        <FAQ onContactClick={onContactClick} />
       </FadeUp>
       <ContactCTA onContactClick={onContactClick} />
     </>

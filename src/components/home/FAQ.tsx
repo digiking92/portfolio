@@ -1,13 +1,14 @@
 ﻿import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Plus, Minus, HelpCircle, MessageCircle } from 'lucide-react';
+import { Plus, Minus, HelpCircle } from 'lucide-react';
 import { FAQS, FAQ_SECTION } from '../../data/ctopData';
 import SectionLabel from '../SectionLabel';
 import AmbientScene from '../AmbientScene';
 import FadeUp from '../motion/FadeUp';
 import IconWell from '../visual/IconWell';
+import SectionCta from './SectionCta';
 
-export default function FAQ() {
+export default function FAQ({ onContactClick }: { onContactClick: () => void }) {
   const [openId, setOpenId] = useState<string | null>(FAQS[0]?.id ?? null);
 
   return (
@@ -37,10 +38,7 @@ export default function FAQ() {
                 <p className="text-muted font-sans text-sm leading-relaxed">
                   We keep answers clear and practical. No jargon, no fluff.
                 </p>
-                <div className="inline-flex items-center gap-2 text-brand-green font-sans text-sm font-semibold">
-                  <MessageCircle className="w-4 h-4" />
-                  Happy to walk you through it
-                </div>
+                <SectionCta onClick={onContactClick} intent="message" label="Talk to us" />
               </div>
             </div>
           </FadeUp>
@@ -94,6 +92,10 @@ export default function FAQ() {
               );
             })}
           </div>
+
+          <FadeUp className="lg:hidden mt-8 flex justify-center">
+            <SectionCta onClick={onContactClick} intent="message" label="Talk to us" />
+          </FadeUp>
         </div>
       </div>
     </section>

@@ -3,8 +3,13 @@ import SectionLabel from '../SectionLabel';
 import AmbientScene from '../AmbientScene';
 import SolutionVisual from '../visual/SolutionVisual';
 import FadeUp from '../motion/FadeUp';
+import SectionCta from './SectionCta';
 
-export default function Solution() {
+interface SolutionProps {
+  onContactClick: () => void;
+}
+
+export default function Solution({ onContactClick }: SolutionProps) {
   return (
     <section id="solution" className="section-navy py-24 sm:py-28 relative overflow-hidden">
       <AmbientScene variant="green" intensity="medium" />
@@ -38,6 +43,10 @@ export default function Solution() {
                 <p className="mt-2 font-display font-extrabold text-white text-xl sm:text-2xl leading-snug">
                   {SOLUTION.mantraAccent}
                 </p>
+              </div>
+
+              <div className="pt-2">
+                <SectionCta onClick={onContactClick} />
               </div>
             </div>
           </FadeUp>

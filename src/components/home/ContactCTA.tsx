@@ -5,7 +5,7 @@ import FadeUp from '../motion/FadeUp';
 import MagneticButton from '../motion/MagneticButton';
 
 interface ContactCTAProps {
-  onContactClick: () => void;
+  onContactClick: (intent?: 'book' | 'message') => void;
 }
 
 export default function ContactCTA({ onContactClick }: ContactCTAProps) {
@@ -33,15 +33,23 @@ export default function ContactCTA({ onContactClick }: ContactCTAProps) {
               <p className="text-muted font-sans text-sm sm:text-base leading-relaxed max-w-xl mx-auto">
                 {CTA.body}
               </p>
-              <div className="pt-2 flex justify-center">
+              <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3">
                 <MagneticButton
-                  onClick={onContactClick}
+                  onClick={() => onContactClick('book')}
                   strength={0.4}
                   className="group inline-flex items-center gap-3 px-10 py-4 bg-brand-yellow hover:bg-brand-yellow-hover text-brand-navy font-sans font-bold text-sm uppercase tracking-widest rounded-md shadow-lg shadow-brand-yellow/25 cursor-pointer"
                 >
-                  {CTA.button}
+                  Book a Strategy Call
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </MagneticButton>
+                <button
+                  type="button"
+                  onClick={() => onContactClick('message')}
+                  className="group inline-flex items-center gap-2 px-8 py-4 border border-white/25 bg-white/5 text-white font-sans font-bold text-sm uppercase tracking-widest rounded-md hover:border-brand-green/50 hover:bg-brand-green/10 transition-colors cursor-pointer"
+                >
+                  Contact us
+                  <ArrowRight className="w-4 h-4 text-brand-green group-hover:translate-x-1 transition-transform" />
+                </button>
               </div>
             </div>
           </div>

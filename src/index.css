@@ -1,10 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@700;800;900&display=swap');
 @import "tailwindcss";
 
-/* Brand system — Ctop Digital
+/* Brand system, Ctop Digital
    Navy #0D1B2A · Green #4ADE80 · White #FFFFFF · Slate #94A3B8
    Orange #F97316 · Purple #A78BFA · Yellow #FBBF24
-   Headlines: Manrope 700–900 · Body/Labels: Inter 400/500
+   Headlines: Manrope 700-900 · Body/Labels: Inter 400/500
 */
 
 @theme {
@@ -111,7 +111,7 @@ html[data-theme='dark'] {
   opacity: var(--noise-opacity);
 }
 
-/* Soft mesh wash — depth without competing with copy */
+/* Soft mesh wash, depth without competing with copy */
 .bg-mesh-green {
   background:
     radial-gradient(ellipse 60% 50% at 10% 20%, rgba(74, 222, 128, 0.28), transparent 55%),
@@ -252,7 +252,7 @@ body {
   font-weight: 400;
 }
 
-/* Navy brand band — use on key sections for contrast on the white site */
+/* Navy brand band, use on key sections for contrast on the white site */
 .section-navy {
   --color-bg: #0d1b2a;
   --color-bg-elevated: #132337;
@@ -276,6 +276,172 @@ body {
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
 }
 
+/* Instant Showcase � 3D fan mockups */
+.showcase-stage {
+  perspective: 1400px;
+  perspective-origin: 50% 40%;
+}
+
+.showcase-fan {
+  position: relative;
+  height: clamp(340px, 56vw, 520px);
+  transform-style: preserve-3d;
+}
+
+.showcase-panel {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: min(54%, 440px);
+  height: 88%;
+  transform-style: preserve-3d;
+  transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1), filter 0.45s ease;
+}
+
+.showcase-panel-left {
+  z-index: 1;
+  transform: translate(-50%, -50%) translateX(-52%) rotateY(26deg) scale(0.84);
+  filter: brightness(0.65);
+}
+
+.showcase-panel-center {
+  z-index: 4;
+  width: min(66%, 500px);
+  height: 100%;
+  transform: translate(-50%, -50%) translateZ(40px) scale(1);
+  filter: brightness(1);
+}
+
+.showcase-panel-right {
+  z-index: 1;
+  transform: translate(-50%, -50%) translateX(52%) rotateY(-26deg) scale(0.84);
+  filter: brightness(0.65);
+}
+
+.showcase-fan:hover .showcase-panel-left {
+  transform: translate(-50%, -50%) translateX(-56%) rotateY(30deg) scale(0.82);
+  filter: brightness(0.55);
+}
+
+.showcase-fan:hover .showcase-panel-center {
+  transform: translate(-50%, -50%) translateZ(56px) scale(1.03);
+}
+
+.showcase-fan:hover .showcase-panel-right {
+  transform: translate(-50%, -50%) translateX(56%) rotateY(-30deg) scale(0.82);
+  filter: brightness(0.55);
+}
+
+.showcase-frame {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  border-radius: 14px;
+  overflow: hidden;
+  background: #0b1220;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow:
+    0 28px 60px rgba(0, 0, 0, 0.6),
+    0 0 0 1px rgba(255, 255, 255, 0.04) inset;
+}
+
+.showcase-frame-dim {
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+.showcase-chrome {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 12px;
+  flex-shrink: 0;
+  background: linear-gradient(180deg, #1a2436 0%, #121a28 100%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.showcase-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  flex-shrink: 0;
+}
+
+.showcase-url {
+  margin-left: 8px;
+  flex: 1;
+  min-width: 0;
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  color: rgba(255, 255, 255, 0.4);
+  font-family: var(--font-sans);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 999px;
+  padding: 4px 10px;
+}
+
+.showcase-viewport {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  background: #05080f;
+}
+
+.showcase-shot {
+  width: 100%;
+  height: 170%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+  transition: transform 1.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.showcase-panel-center:hover .showcase-shot {
+  transform: translateY(-30%);
+}
+
+.showcase-viewport-fade {
+  pointer-events: none;
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 26%;
+  background: linear-gradient(to top, rgba(5, 8, 15, 0.9), transparent);
+}
+
+@media (max-width: 767px) {
+  .showcase-fan {
+    height: 380px;
+  }
+
+  .showcase-panel-left,
+  .showcase-panel-right {
+    width: min(46%, 200px);
+    height: 78%;
+  }
+
+  .showcase-panel-left {
+    transform: translate(-50%, -50%) translateX(-38%) rotateY(20deg) scale(0.78);
+  }
+
+  .showcase-panel-right {
+    transform: translate(-50%, -50%) translateX(38%) rotateY(-20deg) scale(0.78);
+  }
+
+  .showcase-panel-center {
+    width: min(82%, 340px);
+  }
+
+  .showcase-fan:hover .showcase-panel-left {
+    transform: translate(-50%, -50%) translateX(-40%) rotateY(22deg) scale(0.76);
+  }
+
+  .showcase-fan:hover .showcase-panel-right {
+    transform: translate(-50%, -50%) translateX(40%) rotateY(-22deg) scale(0.76);
+  }
+}
 ::-webkit-scrollbar {
   width: 8px;
 }

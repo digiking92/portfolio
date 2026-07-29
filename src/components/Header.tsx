@@ -22,7 +22,10 @@ export default function Header({ onContactClick }: HeaderProps) {
   const { isDark, toggleTheme } = useTheme();
 
   const onHome = location.pathname === '/';
-  const overDarkHero = onHome && !isScrolled;
+  const hasNavyHero = ['/', '/about', '/services', '/work', '/contact'].includes(
+    location.pathname
+  );
+  const overDarkHero = hasNavyHero && !isScrolled;
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 40);

@@ -1,4 +1,4 @@
-﻿import {
+import {
   Capability,
   ProcessStep,
   CaseStudy,
@@ -20,6 +20,8 @@ export const BRAND = {
   email: 'hello@ctopdigital.com',
   phone: '+234 800 000 0000',
   location: 'Lagos, Nigeria · Global',
+  /** Replace with your real Calendly event URL */
+  calendlyUrl: 'https://calendly.com/ctopdigital/strategy-call',
 };
 
 export const HERO = {
@@ -213,24 +215,25 @@ export const PROCESS_SECTION = {
   eyebrow: 'Our Process',
   headline: 'Strategy Before Execution.',
   description:
-    'Every successful project begins with understanding your business, not just your brief.',
+    'Every successful engagement begins with diagnosis: understanding your business and your current digital reality before we plan or build.',
 };
 
 export const PROCESS_STEPS: ProcessStep[] = [
   {
-    id: 'discover',
-    title: 'Discover',
-    description: 'We learn about your goals, audience, and challenges.',
+    id: 'diagnose',
+    title: 'Diagnose',
+    description:
+      'We clarify goals and run a SiteScopeAI audit covering stack, security surface, and speed, so we never guess what to fix.',
   },
   {
     id: 'strategize',
     title: 'Strategize',
-    description: 'We create a roadmap aligned with measurable outcomes.',
+    description: 'We turn findings into a prioritized roadmap tied to measurable outcomes.',
   },
   {
     id: 'design-build',
     title: 'Design & Build',
-    description: 'We bring your vision to life with thoughtful design and robust technology.',
+    description: 'We bring the plan to life with thoughtful design and robust technology.',
   },
   {
     id: 'launch',
@@ -240,39 +243,60 @@ export const PROCESS_STEPS: ProcessStep[] = [
   {
     id: 'optimize',
     title: 'Optimize',
-    description: 'We measure, test, and refine to improve results over time.',
+    description: 'We measure, re-scan, and refine so results compound over time.',
   },
 ];
 
+/** Homepage strip + Process callout, SiteScopeAI as internal diagnostic engine */
+export const SITESCOPE = {
+  eyebrow: 'Website Intelligence',
+  headline: 'Before we build, we diagnose.',
+  body: 'We use SiteScopeAI, our in-house website intelligence system, to fingerprint your tech stack, map security risks, and score performance. You get a clear report and a prioritized fix list, not a jargon dump.',
+  points: [
+    'What your site is built with',
+    'Passive security surface (headers, SSL, exposures)',
+    'Speed signals that affect conversion',
+    'Plain-English fixes your team can act on',
+  ],
+  note: 'Passive, permission-based, and non-destructive. We analyze the public surface. We don’t attack your systems.',
+  cta: 'Request an audit',
+  processTitle: 'Powered by SiteScopeAI',
+  processBody:
+    'Every kickoff includes a SiteScopeAI report so strategy starts from evidence: stack, security posture, and performance, explained in plain English.',
+};
+
 export const CASE_STUDIES_SECTION = {
   eyebrow: 'Selected Engagements',
-  headline: 'Real Businesses. Meaningful Transformation.',
+  headlineLines: ['Real Businesses.', 'Meaningful Transformation.'],
   description:
-    'Every engagement begins with understanding the business—not simply delivering another website. We partner with organizations to solve real growth challenges through strategy, technology, and digital systems.',
+    'Every engagement begins with understanding the business, not simply delivering another website. We partner with organizations to solve real growth challenges through strategy, technology, and digital systems.',
   cta: 'View All Engagements',
 };
 
 export const CASE_STUDIES: CaseStudy[] = [
   {
-    id: 'learnwithchris',
-    client: 'LearnWithChris',
-    subtitle: 'Building a Scalable Digital Learning Platform',
+    id: 'bridge-africa-academia',
+    client: 'The Bridge Africa Academia',
+    subtitle: 'Building a Global Online School Rooted in African Identity',
     category: 'Digital Products',
-    labels: ['Growth Strategy', 'Website Platform', 'Sales Funnel', 'Business Automation'],
+    kind: 'client',
+    featured: false,
+    labels: ['Website Platform', 'Brand Positioning', 'Growth Strategy', 'Conversion Optimization'],
     challenge:
-      'An emerging education brand needed more than a beautiful website. It required a platform capable of delivering courses, building trust, capturing leads, and supporting long-term growth.',
+      'An online British curriculum school serving African families in the UAE and diaspora needed a digital presence that communicated heritage, trust, and enrollment clarity across continents.',
     approach:
-      'We designed a complete digital learning ecosystem—from brand positioning and user experience to course delivery, lead generation, and scalable architecture.',
+      'We designed and built a conversion-focused education platform around identity, curriculum clarity, and enrollment journeys, so parents could understand the offering and take the next step with confidence.',
     delivered: [
-      'Brand Strategy',
+      'Website Strategy',
       'UI/UX Design',
-      'Website Development',
-      'Learning Platform',
-      'Sales Funnel',
-      'Email Automation',
+      'Web Development',
+      'Enrollment Funnel',
+      'Content Structure',
+      'Performance Optimization',
     ],
     impact:
-      'A scalable platform designed to support audience growth, course delivery, and future digital products.',
+      'A live digital school platform that positions Bridge Africa Academia for global enrollment while celebrating African heritage and academic excellence.',
+    url: 'https://thebridgeafricaacademia.com/',
     accentColor: 'brand-green',
   },
   {
@@ -280,11 +304,13 @@ export const CASE_STUDIES: CaseStudy[] = [
     client: 'VoltSolar',
     subtitle: 'Simplifying Solar System Design Through Intelligent Software',
     category: 'Digital Products',
+    kind: 'client',
+    featured: true,
     labels: ['Product Design', 'Digital Transformation', 'AI Integration', 'Analytics'],
     challenge:
       'Solar professionals often rely on spreadsheets and manual calculations, slowing down project delivery and increasing the risk of costly sizing errors.',
     approach:
-      'We designed an intelligent web application that streamlines solar system design—from load calculation and battery sizing to inverter selection and proposal generation.',
+      'We designed an intelligent web application that streamlines solar system design, from load calculation and battery sizing to inverter selection and proposal generation.',
     delivered: [
       'Product Strategy',
       'UX Research',
@@ -295,6 +321,7 @@ export const CASE_STUDIES: CaseStudy[] = [
     ],
     impact:
       'A faster, more accurate workflow that helps solar professionals deliver reliable system designs with greater confidence.',
+    url: 'https://voltsolar.learnwithchris.app',
     accentColor: 'brand-yellow',
   },
   {
@@ -302,6 +329,8 @@ export const CASE_STUDIES: CaseStudy[] = [
     client: 'Krossbell Global',
     subtitle: 'Designing a Website Built for Business Growth',
     category: 'Brand & Corporate Platforms',
+    kind: 'client',
+    featured: true,
     labels: ['Growth Strategy', 'Conversion Optimization', 'Website Platform', 'Marketing Systems'],
     challenge:
       'An outdated online presence no longer reflected the quality of the business or supported lead generation.',
@@ -323,21 +352,96 @@ export const CASE_STUDIES: CaseStudy[] = [
     client: 'DevSoses',
     subtitle: 'Repositioning an Engineering Company for the Digital Era',
     category: 'Brand & Corporate Platforms',
+    kind: 'client',
+    featured: true,
     labels: ['Brand Positioning', 'Website Platform', 'Conversion Optimization', 'Growth Strategy'],
     challenge:
       'The engineering firm needed a stronger online presence that reflected its expertise and credibility while generating new business opportunities.',
     approach:
-      "We built DevSoses' digital presence around clarity, trust, and conversion—designed to communicate technical capability and open new opportunities.",
+      "We built DevSoses' digital presence around clarity, trust, and conversion, including their website and Google Business Profile, designed to communicate technical capability and open new opportunities.",
     delivered: [
       'Brand Messaging',
       'Website Design',
       'Copywriting',
       'SEO Foundation',
+      'Google Business Profile',
       'Lead Generation',
     ],
     impact:
       "A professional digital presence aligned with the firm's engineering capabilities and future growth ambitions.",
+    url: 'https://www.devsosesinternational.com/',
     accentColor: 'brand-green',
+  },
+  {
+    id: 'learnwithchris',
+    client: 'LearnWithChris',
+    subtitle: 'Our Internal Digital Learning Venture',
+    category: 'Digital Products',
+    kind: 'internal',
+    featured: true,
+    labels: ['Growth Strategy', 'Website Platform', 'Sales Funnel', 'Business Automation'],
+    challenge:
+      'We needed more than a brochure site for our own education brand. LearnWithChris required a platform that could deliver courses, build trust, capture leads, and support long-term product growth.',
+    approach:
+      'We built LearnWithChris as an internal Ctop venture: brand positioning, user experience, course delivery, lead generation, and a scalable architecture we could iterate on ourselves.',
+    delivered: [
+      'Brand Strategy',
+      'UI/UX Design',
+      'Website Development',
+      'Learning Platform',
+      'Sales Funnel',
+      'Email Automation',
+    ],
+    impact:
+      'A living internal platform we use to teach, grow an audience, and prove the same growth-system approach we bring to client engagements.',
+    url: 'https://learnwithchris.app',
+    accentColor: 'brand-purple',
+  },
+  {
+    id: 'testify-ai',
+    client: 'TestifyAI',
+    subtitle: 'AI-Powered Testimonial Collection for Client Proof',
+    category: 'AI & Business Tools',
+    kind: 'internal',
+    featured: false,
+    labels: ['AI Integration', 'Marketing Systems', 'Product Design', 'Conversion Optimization'],
+    challenge:
+      'Collecting usable testimonials is slow, awkward, and inconsistent, which leaves marketing and case pages short on real social proof.',
+    approach:
+      'We built TestifyAI as an internal Ctop tool so clients can submit feedback and AI helps shape polished testimonials ready for websites, ads, and engagement stories.',
+    delivered: [
+      'Product Strategy',
+      'AI Workflow',
+      'Collection Experience',
+      'Testimonial Formatting',
+      'Internal Ops Tooling',
+    ],
+    impact:
+      'Faster, cleaner social proof we can deploy across client work and our own growth systems.',
+    accentColor: 'brand-yellow',
+  },
+  {
+    id: 'signal',
+    client: 'Signal',
+    subtitle: "Ctop's Internal Growth Analytics Platform",
+    category: 'Growth Systems',
+    kind: 'internal',
+    featured: false,
+    labels: ['Analytics', 'Marketing Systems', 'Growth Strategy', 'Business Automation'],
+    challenge:
+      'Campaign links, attribution, and reporting were scattered across tools, making it harder to see what actually drives growth for the agency and our clients.',
+    approach:
+      'We built Signal as an internal platform for analytics, link building and tracking, and link shortening, so Ctop can measure campaigns and share cleaner attribution in one place.',
+    delivered: [
+      'Analytics Dashboard',
+      'Link Tracking',
+      'Link Shortener',
+      'Attribution Views',
+      'Internal Reporting',
+    ],
+    impact:
+      'Clearer campaign attribution, cleaner tracking links, and faster reporting for internal ops and client performance work.',
+    accentColor: 'brand-orange',
   },
 ];
 
@@ -438,6 +542,16 @@ export const FAQS: FAQItem[] = [
   },
 ];
 
+export const SERVICES_PAGE = {
+  eyebrow: 'Services',
+  headlineLines: ['Four pillars.', 'One growth system.'],
+  lead: 'We organize our work into Strategy, Build, Grow, and Scale, so every capability serves a clear business purpose.',
+  ctaHeadline: 'Not sure where to start?',
+  ctaBody:
+    "We'll help you define the right combination of strategy, build, growth, and scale for your stage.",
+  cta: "Let's Talk",
+};
+
 export const SERVICE_PILLARS: ServicePillar[] = [
   {
     id: 'strategy',
@@ -488,34 +602,147 @@ export const SERVICE_PILLARS: ServicePillar[] = [
 ];
 
 export const ABOUT = {
-  headline: 'Building Businesses Through Better Digital Systems.',
-  story: [
-    'Most agencies begin with design. We began with solving problems.',
-    'Over the years we’ve worked with startups, growing businesses and organizations looking to modernize how they engage customers, streamline operations and create sustainable growth.',
-    'Today we combine strategy, technology and marketing to build solutions that create measurable business value.',
+  eyebrow: 'About Ctop',
+  headlineLines: ['We Help Ambitious Businesses', "Build What's Next."],
+  body: [
+    'Growth does not come from isolated tactics or beautiful websites alone.',
+    'It comes from connected digital systems built around business strategy.',
   ],
-  philosophy:
-    'Technology is only valuable when it solves meaningful business problems.',
-  vision:
-    "To become Africa's most respected digital growth company, building world-class digital experiences, intelligent systems, and growth strategies for organizations across the globe.",
-  mission:
-    'Helping businesses transform ideas into scalable digital systems that generate growth, improve customer experience and create lasting competitive advantage.',
-  promise:
-    'When you work with Ctop Digital, you don’t simply receive a website or marketing campaign. You receive a strategic growth partner committed to helping your organization succeed.',
+  primaryCta: 'Start a Conversation',
+  secondaryCta: 'View Our Work',
+
+  storyEyebrow: 'Our Story',
+  storyHeadline: 'We Started With Problems, Not Pixels.',
+  storyContrast: {
+    before: 'Most agencies begin with design.',
+    after: 'We begin with questions.',
+  },
+  storyBody:
+    'Before we recommend a website, campaign, brand, or new technology, we understand the business behind it.',
+  storyQuestions: [
+    'What are you trying to achieve?',
+    'Where is growth slowing down?',
+    'What opportunities are being missed?',
+    'What systems are holding you back?',
+  ],
+  storyPunch: 'Solving the wrong problem beautifully is still the wrong problem.',
+
+  beliefEyebrow: 'Our Belief',
+  manifestoLines: [
+    "We don't sell websites.",
+    'We build connected digital growth systems.',
+  ],
+  beliefSupport: 'Every decision should move the business forward. If it does not create value, it does not belong.',
+
+  diagramEyebrow: 'How Growth Connects',
+  diagramHeadline: 'One System. Many Moving Parts.',
+  diagramBody: 'Hover each node. Strategy, brand, product, and marketing only work when they talk to each other.',
+
+  differenceEyebrow: 'Why Ctop',
+  differenceHeadline: 'Different Thinking. Better Outcomes.',
+  differences: [
+    {
+      id: 'strategy',
+      title: 'Strategy Before Execution',
+      description: 'We understand your market and objectives before recommending tools or builds.',
+    },
+    {
+      id: 'systems',
+      title: 'Systems Thinking',
+      description: 'We connect brand, websites, marketing, AI, and analytics into one ecosystem.',
+    },
+    {
+      id: 'partnership',
+      title: 'Long-Term Partnership',
+      description: 'Launch is a milestone. Optimization and evolution are the real work.',
+    },
+  ],
+
+  workEyebrow: 'Selected Work',
+  workHeadline: 'Built for Real Businesses.',
+  workBody: 'A look at engagements where strategy, design, and systems meet.',
+  workCta: 'View All Engagements',
+
+  valuesEyebrow: 'Our Values',
+  valuesHeadline: 'Principles That Guide Every Decision.',
+  valuesDescription: 'Standards that shape every strategy, recommendation, and deliverable.',
+  /** Editorial alternating layout (not a 7-card grid) */
+  featuredValues: ['clarity', 'excellence', 'innovation', 'partnership'] as const,
+
+  proofEyebrow: 'Impact',
+  proofHeadline: 'Real Partnerships. Real Results.',
+  proofStats: [
+    { value: 20, suffix: '+', label: 'Projects Delivered' },
+    { value: 5, suffix: '+', label: 'Industries Served' },
+    { value: 100, suffix: '%', label: 'Tailored Solutions' },
+  ],
+
+  approachEyebrow: 'How We Work',
+  approachHeadline: 'A Proven Path From Clarity to Momentum.',
+  approachSteps: [
+    { id: 'discover', title: 'Discover', description: 'Understand the business.' },
+    { id: 'strategize', title: 'Strategize', description: 'Design the roadmap.' },
+    { id: 'build', title: 'Build', description: 'Create digital systems.' },
+    { id: 'launch', title: 'Launch', description: 'Deploy with confidence.' },
+    { id: 'optimize', title: 'Optimize', description: 'Measure, refine, improve.' },
+  ],
+
+  ctaEyebrow: "Let's Build What's Next",
+  ctaHeadline: 'The right partner helps you build momentum.',
+  ctaPrimary: 'Book a Strategy Call',
+  ctaSecondary: 'View Our Work',
 };
 
 export const VALUES: ValueItem[] = [
-  { id: 'clarity', title: 'Clarity', description: 'We make complexity understandable and decisions sharper.' },
-  { id: 'excellence', title: 'Excellence', description: 'Craft and standards that hold up under scrutiny.' },
-  { id: 'innovation', title: 'Innovation', description: 'New tools and methods in service of real outcomes.' },
-  { id: 'integrity', title: 'Integrity', description: 'Honest counsel, even when it’s the harder path.' },
-  { id: 'growth', title: 'Growth', description: 'Everything we build should move the business forward.' },
-  { id: 'partnership', title: 'Partnership', description: 'We succeed when our clients succeed.' },
-  { id: 'execution', title: 'Execution', description: 'Strategy means little without disciplined delivery.' },
+  {
+    id: 'clarity',
+    title: 'Clarity',
+    description:
+      'Complexity rarely creates value. Clarity does. We simplify ideas, systems, and customer experiences so businesses can move faster with confidence.',
+  },
+  {
+    id: 'excellence',
+    title: 'Excellence',
+    description:
+      "Good enough doesn't build remarkable companies. We pursue craftsmanship because details create trust.",
+  },
+  {
+    id: 'innovation',
+    title: 'Innovation',
+    description:
+      "Innovation isn't following trends. It's discovering better ways to solve meaningful business problems.",
+  },
+  {
+    id: 'integrity',
+    title: 'Integrity',
+    description:
+      'We choose honesty over convenience. Long-term partnerships are built through transparency and trust.',
+  },
+  {
+    id: 'growth',
+    title: 'Growth',
+    description:
+      "Every recommendation should move the business forward. If it doesn't create measurable value, we challenge it.",
+  },
+  {
+    id: 'partnership',
+    title: 'Partnership',
+    description:
+      "We don't see ourselves as vendors. We become an extension of your team, invested in your success.",
+  },
+  {
+    id: 'execution',
+    title: 'Execution',
+    description:
+      'Ideas are only valuable when they are implemented with discipline and consistency.',
+  },
 ];
 
 export const CONTACT = {
+  eyebrow: 'Contact',
   headline: "Let's Build Your Next Growth System.",
+  headlineLines: ["Let's Build Your Next", 'Growth System.'],
+  lead: "Whether you're launching a startup, scaling an established business or transforming an organization, we'd love to hear about your vision.",
   body: "Whether you're launching a startup, scaling an established business or transforming an organization, we'd love to hear about your vision. Let's explore how strategy, technology and marketing can help you move forward with confidence.",
 };
 

@@ -7,6 +7,7 @@ import SectionLabel from '../SectionLabel';
 import CaseStudyVisual from '../CaseStudyVisual';
 import AmbientScene from '../AmbientScene';
 import FadeUp from '../motion/FadeUp';
+import SectionCta from './SectionCta';
 import type { CaseStudy } from '../../types';
 
 function EngagementModal({
@@ -42,13 +43,15 @@ function EngagementModal({
         <div className="mb-6 rounded-2xl overflow-hidden">
           <CaseStudyVisual
             title={study.client}
-            category={study.category}
+            category={study.kind === 'internal' ? 'Internal Venture' : study.category}
             image={study.image}
             accent={study.accentColor}
           />
         </div>
 
-        <span className="brand-label text-brand-green">{study.category}</span>
+        <span className="brand-label text-brand-green">
+          {study.kind === 'internal' ? 'Internal Venture' : study.category}
+        </span>
         <h3 className="mt-3 text-3xl font-display font-bold text-fg">{study.client}</h3>
         <p className="mt-2 text-fg/70 font-sans text-base leading-relaxed">{study.subtitle}</p>
 
@@ -81,14 +84,31 @@ function EngagementModal({
               ))}
             </ul>
           </div>
+
+          {study.url && (
+            <a
+              href={study.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 text-sm font-sans font-bold uppercase tracking-wider text-fg hover:text-brand-green transition-colors"
+            >
+              Visit live site
+              <ArrowUpRight className="w-4 h-4 text-brand-green" />
+            </a>
+          )}
         </div>
       </motion.div>
     </div>
   );
 }
 
-export default function CaseStudiesPreview() {
+export default function CaseStudiesPreview({
+  onContactClick,
+}: {
+  onContactClick: (intent?: 'book' | 'message') => void;
+}) {
   const [active, setActive] = useState<CaseStudy | null>(null);
+  const featured = CASE_STUDIES.filter((study) => study.featured !== false);
 
   return (
     <section id="work" className="py-24 sm:py-28 bg-bg relative overflow-hidden border-t border-line">
@@ -96,24 +116,19 @@ export default function CaseStudiesPreview() {
       <div className="absolute inset-0 bg-mesh-green pointer-events-none opacity-35" />
 
       <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-16 sm:mb-20">
-          <FadeUp className="max-w-2xl space-y-4">
-            <SectionLabel>{CASE_STUDIES_SECTION.eyebrow}</SectionLabel>
-            <h2 className="text-3xl sm:text-5xl font-display font-extrabold text-fg leading-tight">
-              {CASE_STUDIES_SECTION.headline}
-            </h2>
-            <p className="text-fg/70 font-sans text-base sm:text-lg leading-relaxed">
-              {CASE_STUDIES_SECTION.description}
-            </p>
-          </FadeUp>
-          <Link
-            to="/work"
-            className="inline-flex items-center gap-2 text-sm font-sans font-bold uppercase tracking-wider text-fg hover:text-brand-green transition-colors group shrink-0"
-          >
-            {CASE_STUDIES_SECTION.cta}
-            <ArrowUpRight className="w-4 h-4 text-brand-green group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-          </Link>
-        </div>
+        <FadeUp className="max-w-2xl space-y-4 mb-16 sm:mb-20">
+          <SectionLabel>{CASE_STUDIES_SECTION.eyebrow}</SectionLabel>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display font-extrabold text-fg leading-tight">
+            {CASE_STUDIES_SECTION.headlineLines.map((line) => (
+              <span key={line} className="block md:whitespace-nowrap">
+                {line}
+              </span>
+            ))}
+          </h2>
+          <p className="text-fg/70 font-sans text-base sm:text-lg leading-relaxed">
+            {CASE_STUDIES_SECTION.description}
+          </p>
+        </FadeUp>
 
         {/* Editorial timeline */}
         <div className="relative">
@@ -123,7 +138,7 @@ export default function CaseStudiesPreview() {
           />
 
           <div className="space-y-0">
-            {CASE_STUDIES.map((study, index) => (
+            {featured.map((study, index) => (
               <motion.article
                 key={study.id}
                 initial={{ opacity: 0, y: 36 }}
@@ -146,8 +161,16 @@ export default function CaseStudiesPreview() {
                         </span>
                         <span className="text-fg/25">·</span>
                         <span className="brand-label !text-[11px] text-brand-green tracking-[0.1em]">
-                          {study.category}
+                          {study.kind === 'internal' ? 'Internal Venture' : study.category}
                         </span>
+                        {study.kind === 'internal' && (
+                          <>
+                            <span className="text-fg/25">·</span>
+                            <span className="brand-label !text-[11px] text-fg/45 tracking-[0.1em]">
+                              {study.category}
+                            </span>
+                          </>
+                        )}
                       </div>
 
                       <h3 className="text-2xl sm:text-3xl font-display font-extrabold text-fg tracking-tight">
@@ -186,26 +209,42 @@ export default function CaseStudiesPreview() {
                       ))}
                     </div>
 
-                    <button
-                      onClick={() => setActive(study)}
-                      className="inline-flex items-center gap-2 group text-sm font-sans font-bold uppercase tracking-wider text-fg hover:text-brand-green transition-colors cursor-pointer pt-1"
-                    >
-                      View engagement
-                      <ArrowUpRight className="w-4 h-4 text-brand-green group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-                    </button>
+                    <div className="flex flex-wrap items-center gap-3 pt-1">
+                      <button
+                        type="button"
+                        onClick={() => setActive(study)}
+                        className="inline-flex items-center gap-2 group text-sm font-sans font-bold uppercase tracking-wider text-fg hover:text-brand-green transition-colors cursor-pointer"
+                      >
+                        {study.kind === 'internal' ? 'View venture' : 'View engagement'}
+                        <ArrowUpRight className="w-4 h-4 text-brand-green group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                      </button>
+                      {study.url && (
+                        <a
+                          href={study.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-2 text-sm font-sans font-bold uppercase tracking-wider text-fg/60 hover:text-brand-green transition-colors"
+                        >
+                          Live site
+                          <ArrowUpRight className="w-4 h-4 text-brand-green" />
+                        </a>
+                      )}
+                    </div>
                   </div>
 
                   <button
                     onClick={() => setActive(study)}
                     className="lg:col-span-5 text-left cursor-pointer group"
-                    aria-label={`View ${study.client} engagement`}
+                    aria-label={`View ${study.client}${study.kind === 'internal' ? ' venture' : ' engagement'}`}
                   >
                     <div className="relative rounded-2xl overflow-hidden shadow-lg group-hover:shadow-xl transition-shadow duration-500">
                       <div className="absolute -inset-1 bg-gradient-to-br from-brand-green/25 via-transparent to-brand-yellow/15 rounded-2xl opacity-0 group-hover:opacity-100 blur-md transition-opacity duration-500" />
                       <div className="relative group-hover:scale-[1.015] transition-transform duration-700 ease-out">
                         <CaseStudyVisual
                           title={study.client}
-                          category={study.category}
+                          category={
+                            study.kind === 'internal' ? 'Internal Venture' : study.category
+                          }
                           image={study.image}
                           accent={study.accentColor}
                           index={index}
@@ -220,6 +259,23 @@ export default function CaseStudiesPreview() {
 
           <div className="border-t border-line" aria-hidden />
         </div>
+
+        <FadeUp className="mt-14 sm:mt-16 flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 sm:gap-4">
+          <Link
+            to="/work"
+            className="group inline-flex items-center justify-center gap-2 px-7 py-3.5 bg-brand-yellow hover:bg-brand-yellow-hover text-brand-navy font-sans font-bold text-sm uppercase tracking-wider rounded-md transition-colors"
+          >
+            {CASE_STUDIES_SECTION.cta}
+            <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+          </Link>
+          <SectionCta
+            onClick={onContactClick}
+            intent="message"
+            label="Contact us"
+            variant="link"
+            className="justify-center sm:justify-start px-2 py-3"
+          />
+        </FadeUp>
       </div>
 
       <AnimatePresence>

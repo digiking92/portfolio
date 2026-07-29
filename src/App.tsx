@@ -4,17 +4,23 @@ import { ThemeProvider } from './context/ThemeContext';
 import SmoothScroll from './components/motion/SmoothScroll';
 import Header from './components/Header';
 import Footer from './components/Footer';
-import ContactModal from './components/ContactModal';
+import ContactModal, { type ContactIntent } from './components/ContactModal';
 import HomePage from './pages/HomePage';
 import AboutPage from './pages/AboutPage';
 import ServicesPage from './pages/ServicesPage';
 import WorkPage from './pages/WorkPage';
 import ContactPage from './pages/ContactPage';
 
+export type OpenContact = (intent?: ContactIntent) => void;
+
 export default function App() {
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
+  const [contactTab, setContactTab] = useState<ContactIntent>('book');
 
-  const handleOpenContact = () => setIsContactModalOpen(true);
+  const handleOpenContact: OpenContact = (intent = 'book') => {
+    setContactTab(intent);
+    setIsContactModalOpen(true);
+  };
   const handleCloseContact = () => setIsContactModalOpen(false);
 
   return (
@@ -27,13 +33,20 @@ export default function App() {
               <Routes>
                 <Route path="/" element={<HomePage onContactClick={handleOpenContact} />} />
                 <Route path="/about" element={<AboutPage onContactClick={handleOpenContact} />} />
-                <Route path="/services" element={<ServicesPage onContactClick={handleOpenContact} />} />
+                <Route
+                  path="/services"
+                  element={<ServicesPage onContactClick={handleOpenContact} />}
+                />
                 <Route path="/work" element={<WorkPage onContactClick={handleOpenContact} />} />
                 <Route path="/contact" element={<ContactPage />} />
               </Routes>
             </main>
             <Footer onContactClick={handleOpenContact} />
-            <ContactModal isOpen={isContactModalOpen} onClose={handleCloseContact} />
+            <ContactModal
+              isOpen={isContactModalOpen}
+              onClose={handleCloseContact}
+              initialTab={contactTab}
+            />
           </div>
         </SmoothScroll>
       </BrowserRouter>

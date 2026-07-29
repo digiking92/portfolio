@@ -26,18 +26,24 @@ export type EngagementCategory =
 
 export interface CaseStudy {
   id: string;
-  /** Client / brand name */
+  /** Client / brand / venture name */
   client: string;
   /** Outcome-led subtitle */
   subtitle: string;
   category: EngagementCategory;
+  /** Client engagement vs internal venture */
+  kind?: 'client' | 'internal';
+  /** Show on homepage preview */
+  featured?: boolean;
   /** Premium capability labels (not "Website Design") */
   labels: string[];
   challenge: string;
   approach: string;
   delivered: string[];
   impact: string;
-  /** Optional — leave empty until assets are ready */
+  /** Optional live URL */
+  url?: string;
+  /** Optional, leave empty until assets are ready */
   image?: string;
   accentColor?: 'brand-green' | 'brand-yellow' | 'brand-orange' | 'brand-purple';
 }

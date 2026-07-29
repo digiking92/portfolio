@@ -4,6 +4,7 @@ import { TESTIMONIALS, TESTIMONIALS_SECTION } from '../../data/ctopData';
 import SectionLabel from '../SectionLabel';
 import AmbientScene from '../AmbientScene';
 import FadeUp from '../motion/FadeUp';
+import SectionCta from './SectionCta';
 
 function Avatar({ name, tone }: { name: string; tone: 'green' | 'yellow' }) {
   const initials = name
@@ -22,7 +23,11 @@ function Avatar({ name, tone }: { name: string; tone: 'green' | 'yellow' }) {
   );
 }
 
-export default function Testimonials() {
+export default function Testimonials({
+  onContactClick,
+}: {
+  onContactClick: () => void;
+}) {
   const primary = TESTIMONIALS[0];
   const secondary = TESTIMONIALS[1];
 
@@ -126,6 +131,10 @@ export default function Testimonials() {
             </FadeUp>
           </div>
         </div>
+
+        <FadeUp className="mt-12 sm:mt-14 flex justify-center">
+          <SectionCta onClick={onContactClick} />
+        </FadeUp>
       </div>
     </section>
   );

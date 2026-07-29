@@ -1,14 +1,19 @@
 import { motion } from 'motion/react';
-import { Search, Map, Hammer, Rocket, LineChart } from 'lucide-react';
-import { PROCESS_STEPS, PROCESS_SECTION } from '../../data/ctopData';
+import { Search, Map, Hammer, Rocket, LineChart, Radar } from 'lucide-react';
+import { PROCESS_STEPS, PROCESS_SECTION, SITESCOPE } from '../../data/ctopData';
 import SectionLabel from '../SectionLabel';
 import AmbientScene from '../AmbientScene';
 import FadeUp from '../motion/FadeUp';
 import IconWell from '../visual/IconWell';
+import SectionCta from './SectionCta';
 
-const ICONS = [Search, Map, Hammer, Rocket, LineChart];
+const ICONS = [Radar, Map, Hammer, Rocket, LineChart];
 
-export default function Process() {
+interface ProcessProps {
+  onContactClick: () => void;
+}
+
+export default function Process({ onContactClick }: ProcessProps) {
   return (
     <section id="process" className="section-navy py-24 sm:py-28 relative overflow-hidden">
       <AmbientScene variant="green" intensity="medium" />
@@ -26,7 +31,6 @@ export default function Process() {
           </p>
         </FadeUp>
 
-        {/* Desktop cinematic rail */}
         <div className="hidden lg:block relative">
           <div className="absolute top-[52px] left-8 right-8 h-px bg-gradient-to-r from-transparent via-brand-green/40 to-transparent" />
           <motion.div
@@ -40,6 +44,7 @@ export default function Process() {
           <div className="grid grid-cols-5 gap-4">
             {PROCESS_STEPS.map((step, index) => {
               const Icon = ICONS[index] || Search;
+              const isDiagnose = step.id === 'diagnose';
               return (
                 <motion.div
                   key={step.id}
@@ -60,7 +65,13 @@ export default function Process() {
                     </div>
                   </div>
 
-                  <div className="relative rounded-2xl bg-surface border border-line p-5 min-h-[220px] overflow-hidden group-hover:border-brand-green/45 group-hover:-translate-y-1 transition-all duration-300 shine-border">
+                  <div
+                    className={`relative rounded-2xl bg-surface border p-5 min-h-[220px] overflow-hidden group-hover:-translate-y-1 transition-all duration-300 shine-border ${
+                      isDiagnose
+                        ? 'border-brand-green/50 ring-1 ring-brand-green/20'
+                        : 'border-line group-hover:border-brand-green/45'
+                    }`}
+                  >
                     <div className="absolute -right-4 -top-4 text-[4.5rem] font-display font-extrabold text-fg/5 leading-none select-none pointer-events-none">
                       {String(index + 1).padStart(2, '0')}
                     </div>
@@ -69,6 +80,7 @@ export default function Process() {
                     </IconWell>
                     <span className="brand-label text-brand-green">
                       Step {String(index + 1).padStart(2, '0')}
+                      {isDiagnose ? ' · SiteScopeAI' : ''}
                     </span>
                     <h3 className="mt-2 text-lg font-display font-bold text-fg">{step.title}</h3>
                     <p className="mt-2 text-muted font-sans text-sm leading-relaxed">
@@ -81,10 +93,10 @@ export default function Process() {
           </div>
         </div>
 
-        {/* Mobile timeline */}
         <div className="lg:hidden space-y-4">
           {PROCESS_STEPS.map((step, index) => {
             const Icon = ICONS[index] || Search;
+            const isDiagnose = step.id === 'diagnose';
             return (
               <motion.div
                 key={step.id}
@@ -100,13 +112,18 @@ export default function Process() {
                     <div className="w-px flex-1 bg-gradient-to-b from-brand-green/60 to-line mt-2" />
                   )}
                 </div>
-                <div className="pb-6 flex-1 rounded-2xl border border-line bg-surface/80 p-5 -mt-2">
+                <div
+                  className={`pb-6 flex-1 rounded-2xl border bg-surface/80 p-5 -mt-2 ${
+                    isDiagnose ? 'border-brand-green/45' : 'border-line'
+                  }`}
+                >
                   <div className="flex items-center gap-3 mb-3">
                     <IconWell tone="green" size="md">
                       <Icon className="w-5 h-5" />
                     </IconWell>
                     <span className="brand-label text-brand-green">
                       {String(index + 1).padStart(2, '0')}
+                      {isDiagnose ? ' · SiteScopeAI' : ''}
                     </span>
                   </div>
                   <h3 className="text-lg font-display font-bold text-fg">{step.title}</h3>
@@ -118,6 +135,28 @@ export default function Process() {
             );
           })}
         </div>
+
+        <FadeUp className="mt-14 sm:mt-16">
+          <div className="rounded-2xl border border-brand-green/25 bg-surface/60 backdrop-blur-sm p-6 sm:p-8 flex flex-col lg:flex-row lg:items-center gap-5 sm:gap-8">
+            <div className="icon-well w-14 h-14 border-2 border-brand-green/40 bg-brand-green/15 text-brand-green shrink-0">
+              <Radar className="w-6 h-6" strokeWidth={2.25} />
+            </div>
+            <div className="space-y-2 min-w-0 flex-1">
+              <h3 className="text-lg sm:text-xl font-display font-bold text-fg">
+                {SITESCOPE.processTitle}
+              </h3>
+              <p className="text-muted font-sans text-sm sm:text-base leading-relaxed max-w-3xl">
+                {SITESCOPE.processBody}
+              </p>
+            </div>
+            <SectionCta
+              onClick={onContactClick}
+              intent="message"
+              label={SITESCOPE.cta}
+              className="shrink-0"
+            />
+          </div>
+        </FadeUp>
       </div>
     </section>
   );

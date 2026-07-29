@@ -1,3 +1,9 @@
+import { CAPABILITIES, CAPABILITIES_SECTION } from '../../data/ctopData';
+import SectionLabel from '../SectionLabel';
+import AmbientScene from '../AmbientScene';
+import FadeUp from '../motion/FadeUp';
+import TiltCard from '../motion/TiltCard';
+import SectionCta from './SectionCta';
 import {
   Compass,
   Palette,
@@ -8,11 +14,10 @@ import {
   Bot,
   BarChart3,
 } from 'lucide-react';
-import { CAPABILITIES, CAPABILITIES_SECTION } from '../../data/ctopData';
-import SectionLabel from '../SectionLabel';
-import AmbientScene from '../AmbientScene';
-import FadeUp from '../motion/FadeUp';
-import TiltCard from '../motion/TiltCard';
+
+interface CapabilitiesProps {
+  onContactClick: () => void;
+}
 
 const iconMap = {
   Compass,
@@ -25,7 +30,7 @@ const iconMap = {
   BarChart3,
 };
 
-/** Solid icon wells + hover accents — high contrast on light and dark */
+/** Solid icon wells + hover accents, high contrast on light and dark */
 const accents = [
   {
     well: 'bg-brand-green text-brand-navy',
@@ -61,7 +66,7 @@ const accents = [
   },
 ];
 
-export default function Capabilities() {
+export default function Capabilities({ onContactClick }: CapabilitiesProps) {
   return (
     <section id="capabilities" className="py-24 sm:py-28 bg-bg border-t border-line relative overflow-hidden">
       <AmbientScene variant="mixed" intensity="low" showGrain={false} />
@@ -96,7 +101,7 @@ export default function Capabilities() {
                       className={`pointer-events-none absolute -top-16 -right-12 w-40 h-40 rounded-full blur-3xl opacity-0 scale-75 group-hover:opacity-100 group-hover:scale-100 transition-all duration-500 ${accent.glow}`}
                     />
 
-                    {/* Top accent — always a hint, full on hover */}
+                    {/* Top accent, always a hint, full on hover */}
                     <div
                       className={`absolute top-0 left-0 right-0 h-[3px] ${accent.bar} origin-left scale-x-[0.22] group-hover:scale-x-100 transition-transform duration-500 ease-out`}
                     />
@@ -135,6 +140,10 @@ export default function Capabilities() {
             );
           })}
         </div>
+
+        <FadeUp className="mt-12 sm:mt-14 flex justify-center">
+          <SectionCta onClick={onContactClick} />
+        </FadeUp>
       </div>
     </section>
   );

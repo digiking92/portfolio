@@ -7,7 +7,7 @@ interface AmbientSceneProps {
   intensity?: 'low' | 'medium' | 'high';
 }
 
-/** Soft aurora orbs — navy depth + lime glow (brand colors only) */
+/** Soft aurora orbs, navy depth + lime glow (brand colors only) */
 export default function AmbientScene({
   variant = 'mixed',
   showGrid = true,

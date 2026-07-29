@@ -6,12 +6,17 @@ import AmbientScene from '../AmbientScene';
 import TiltCard from '../motion/TiltCard';
 import FadeUp from '../motion/FadeUp';
 import IconWell from '../visual/IconWell';
+import SectionCta from './SectionCta';
 
 const ICONS = [Target, Cpu, MessageSquare, Handshake, ChartNoAxesCombined];
 const TONES = ['green', 'yellow', 'orange', 'purple', 'green'] as const;
 
+interface WhyCtopProps {
+  onContactClick: () => void;
+}
+
 /** Bento-style reasons grid */
-export default function WhyCtop() {
+export default function WhyCtop({ onContactClick }: WhyCtopProps) {
   return (
     <section id="why" className="py-24 sm:py-28 bg-bg border-t border-line relative overflow-hidden">
       <AmbientScene variant="yellow" intensity="low" showGrain={false} />
@@ -79,6 +84,10 @@ export default function WhyCtop() {
             );
           })}
         </div>
+
+        <FadeUp className="mt-12 sm:mt-14 flex justify-center">
+          <SectionCta onClick={onContactClick} />
+        </FadeUp>
       </div>
     </section>
   );
