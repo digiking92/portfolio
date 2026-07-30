@@ -1,5 +1,6 @@
+import { Link } from 'react-router-dom';
+import { ArrowUpRight } from 'lucide-react';
 import SectionLabel from '../SectionLabel';
-import SectionCta from './SectionCta';
 
 const SHOWCASE_IMAGE = '/images/showcases/pure-black.png';
 
@@ -35,11 +36,7 @@ function BrowserFrame({
   );
 }
 
-export default function InstantShowcase({
-  onContactClick,
-}: {
-  onContactClick: () => void;
-}) {
+export default function InstantShowcase(_props?: { onContactClick?: () => void }) {
   return (
     <section
       id="showcase"
@@ -101,11 +98,14 @@ export default function InstantShowcase({
           </div>
         </div>
 
-        <div className="mt-10 sm:mt-12 flex flex-col items-center gap-4">
-          <SectionCta onClick={onContactClick} />
-          <p className="text-center text-white/40 font-sans text-xs tracking-wide">
-            Pure Black sample · Swap the image in public/images/showcases anytime
-          </p>
+        <div className="mt-12 sm:mt-14 flex justify-center">
+          <Link
+            to="/work"
+            className="group inline-flex items-center gap-2 text-sm font-sans font-bold uppercase tracking-wider text-white/70 hover:text-brand-green transition-colors"
+          >
+            View engagements
+            <ArrowUpRight className="w-4 h-4 text-brand-green group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+          </Link>
         </div>
       </div>
     </section>

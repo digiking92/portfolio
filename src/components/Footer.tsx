@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { ArrowUp, ArrowRight, Linkedin, Instagram, Mail, MessageSquare } from 'lucide-react';
+import { ArrowRight, Linkedin, Instagram, Mail } from 'lucide-react';
 import { BRAND, SERVICE_PILLARS } from '../data/ctopData';
 
 interface FooterProps {
@@ -21,10 +21,6 @@ const SOCIAL = [
 
 export default function Footer({ onContactClick }: FooterProps) {
   const currentYear = new Date().getFullYear();
-
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
 
   return (
     <>
@@ -143,24 +139,6 @@ export default function Footer({ onContactClick }: FooterProps) {
         </div>
       </footer>
 
-      <div className="fixed bottom-5 right-5 sm:bottom-6 sm:right-6 z-30 flex flex-col gap-2.5">
-        <button
-          type="button"
-          onClick={() => onContactClick('message')}
-          className="p-3.5 sm:p-4 rounded-full bg-brand-green text-brand-navy hover:bg-brand-green-hover shadow-xl shadow-brand-green/20 transition-all duration-300 hover:-translate-y-0.5 cursor-pointer flex items-center justify-center border border-brand-green/30"
-          aria-label="Contact Ctop"
-        >
-          <MessageSquare className="w-5 h-5" />
-        </button>
-        <button
-          type="button"
-          onClick={scrollToTop}
-          className="p-3 sm:p-3.5 rounded-full bg-brand-navy/90 border border-white/15 text-white/70 hover:text-white hover:border-brand-green/40 shadow-xl backdrop-blur-md transition-all duration-300 cursor-pointer"
-          aria-label="Scroll to top"
-        >
-          <ArrowUp className="w-4 h-4" />
-        </button>
-      </div>
     </>
   );
 }

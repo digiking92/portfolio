@@ -201,7 +201,7 @@ export default function Hero({ onContactClick }: HeroProps) {
             <div ref={copyRef} className="space-y-5 sm:space-y-6 w-full flex flex-col items-center lg:items-start">
               <h1
                 data-hero="headline"
-                className="font-display font-extrabold tracking-tight text-white text-[45px] leading-[1.1] lg:text-[clamp(2rem,2.8vw,2.65rem)] lg:leading-[1.12]"
+                className="font-display font-extrabold tracking-tight text-white text-[2.5rem] sm:text-5xl lg:text-[clamp(2.75rem,4.2vw,3.75rem)] leading-[1.08]"
               >
                 <span className="lg:hidden">{slide.headline}</span>
                 <span className="hidden lg:block">{renderHeadline(slide.headlineLines)}</span>

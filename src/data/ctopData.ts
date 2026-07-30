@@ -502,6 +502,12 @@ export const TESTIMONIALS: Testimonial[] = [
     author: 'Daniel Mensah',
     role: 'Founder, Atlas Commerce',
   },
+  {
+    quote:
+      'They connected our brand, website, and marketing into one system. For the first time, every channel felt intentional and measurable.',
+    author: 'Chioma Adeyemi',
+    role: 'Marketing Lead, Bridge Africa Academia',
+  },
 ];
 
 export const FAQ_SECTION = {
@@ -605,34 +611,37 @@ export const ABOUT = {
   eyebrow: 'About Ctop',
   headlineLines: ['We Help Ambitious Businesses', "Build What's Next."],
   body: [
-    'Growth does not come from isolated tactics or beautiful websites alone.',
-    'It comes from connected digital systems built around business strategy.',
+    'We help ambitious businesses grow by connecting strategy, technology, and marketing into digital systems that deliver measurable results.',
   ],
   primaryCta: 'Start a Conversation',
   secondaryCta: 'View Our Work',
 
-  storyEyebrow: 'Our Story',
+  storyEyebrow: 'How We Think',
   storyHeadline: 'We Started With Problems, Not Pixels.',
   storyContrast: {
-    before: 'Most agencies begin with design.',
-    after: 'We begin with questions.',
+    before: 'Most digital agencies begin with design.',
+    after: 'We begin with understanding the business.',
   },
   storyBody:
-    'Before we recommend a website, campaign, brand, or new technology, we understand the business behind it.',
-  storyQuestions: [
-    'What are you trying to achieve?',
-    'Where is growth slowing down?',
-    'What opportunities are being missed?',
-    'What systems are holding you back?',
+    'Before we recommend a website, launch a campaign, redesign a brand, or implement new technology, we first ask a simple question:',
+  storyQuote: 'What problem are we actually solving?',
+  storyPunch:
+    'Because a beautifully designed solution to the wrong problem is still the wrong solution.',
+  storyClose: [
+    "That belief has shaped every engagement we've taken on, from growing startups to established organizations looking to modernize, scale, and compete in a digital-first world.",
+    "Today, Ctop helps ambitious businesses connect strategy, technology, marketing, and execution into one integrated growth system, because sustainable growth is never the result of isolated projects. It's the result of connected thinking.",
   ],
-  storyPunch: 'Solving the wrong problem beautifully is still the wrong problem.',
 
   beliefEyebrow: 'Our Belief',
+  beliefHeadline: 'Technology Only Creates Value When It Solves Real Business Problems.',
   manifestoLines: [
     "We don't sell websites.",
     'We build connected digital growth systems.',
   ],
-  beliefSupport: 'Every decision should move the business forward. If it does not create value, it does not belong.',
+  beliefSupportIntro:
+    'Every website. Every campaign. Every brand. Every automation. Every decision.',
+  beliefSupport:
+    'Should move your business forward. If it does not create measurable business value, it does not belong.',
 
   diagramEyebrow: 'How Growth Connects',
   diagramHeadline: 'One System. Many Moving Parts.',
@@ -644,33 +653,40 @@ export const ABOUT = {
     {
       id: 'strategy',
       title: 'Strategy Before Execution',
-      description: 'We understand your market and objectives before recommending tools or builds.',
+      description:
+        'Technology without strategy creates activity, not growth. Every engagement begins by understanding your business, your market, and your objectives before we recommend solutions.',
     },
     {
       id: 'systems',
       title: 'Systems Thinking',
-      description: 'We connect brand, websites, marketing, AI, and analytics into one ecosystem.',
+      description:
+        'Most agencies deliver isolated projects. We build connected ecosystems where strategy, branding, websites, marketing, AI, automation, and analytics work together. Because businesses grow through systems, not silos.',
     },
     {
       id: 'partnership',
       title: 'Long-Term Partnership',
-      description: 'Launch is a milestone. Optimization and evolution are the real work.',
+      description:
+        "Our work doesn't end at launch. We stay focused on continuous improvement, optimization, and helping your business evolve as markets change.",
     },
   ],
 
-  workEyebrow: 'Selected Work',
-  workHeadline: 'Built for Real Businesses.',
-  workBody: 'A look at engagements where strategy, design, and systems meet.',
-  workCta: 'View All Engagements',
+  visionEyebrow: 'Vision',
+  visionTitle: 'Building the Future of Digital Growth.',
+  vision:
+    'To become the trusted partner organizations turn to when growth demands more than marketing. It demands strategy, technology, and connected systems working together.',
+  missionEyebrow: 'Mission',
+  missionTitle: 'Helping Businesses Build Smarter.',
+  mission:
+    'To help ambitious organizations design connected digital ecosystems that generate measurable growth, create remarkable customer experiences, and build lasting competitive advantage.',
 
   valuesEyebrow: 'Our Values',
   valuesHeadline: 'Principles That Guide Every Decision.',
-  valuesDescription: 'Standards that shape every strategy, recommendation, and deliverable.',
-  /** Editorial alternating layout (not a 7-card grid) */
+  valuesDescription:
+    "These aren't words on a wall. They're standards that shape every strategy, every recommendation, and every project we deliver.",
   featuredValues: ['clarity', 'excellence', 'innovation', 'partnership'] as const,
 
   proofEyebrow: 'Impact',
-  proofHeadline: 'Real Partnerships. Real Results.',
+  proofHeadline: 'Real Partnerships. Real Impact.',
   proofStats: [
     { value: 20, suffix: '+', label: 'Projects Delivered' },
     { value: 5, suffix: '+', label: 'Industries Served' },
@@ -678,17 +694,24 @@ export const ABOUT = {
   ],
 
   approachEyebrow: 'How We Work',
-  approachHeadline: 'A Proven Path From Clarity to Momentum.',
+  approachHeadline: 'Every Engagement Follows the Same Proven Process.',
   approachSteps: [
     { id: 'discover', title: 'Discover', description: 'Understand the business.' },
     { id: 'strategize', title: 'Strategize', description: 'Design the roadmap.' },
     { id: 'build', title: 'Build', description: 'Create digital systems.' },
     { id: 'launch', title: 'Launch', description: 'Deploy with confidence.' },
-    { id: 'optimize', title: 'Optimize', description: 'Measure, refine, improve.' },
+    { id: 'optimize', title: 'Optimize', description: 'Measure, refine, and improve continuously.' },
   ],
 
   ctaEyebrow: "Let's Build What's Next",
-  ctaHeadline: 'The right partner helps you build momentum.',
+  ctaHeadlineLines: [
+    "The Right Digital Partner Doesn't Just Deliver Projects.",
+    'They Help Build Momentum.',
+  ],
+  ctaBody: [
+    "If you're looking for a team that combines strategy, technology, design, marketing, and execution into one connected growth system, we'd love to start the conversation.",
+    "Let's build something that creates lasting business value.",
+  ],
   ctaPrimary: 'Book a Strategy Call',
   ctaSecondary: 'View Our Work',
 };

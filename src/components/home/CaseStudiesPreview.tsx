@@ -7,7 +7,6 @@ import SectionLabel from '../SectionLabel';
 import CaseStudyVisual from '../CaseStudyVisual';
 import AmbientScene from '../AmbientScene';
 import FadeUp from '../motion/FadeUp';
-import SectionCta from './SectionCta';
 import type { CaseStudy } from '../../types';
 
 function EngagementModal({
@@ -102,10 +101,8 @@ function EngagementModal({
   );
 }
 
-export default function CaseStudiesPreview({
-  onContactClick,
-}: {
-  onContactClick: (intent?: 'book' | 'message') => void;
+export default function CaseStudiesPreview(_props?: {
+  onContactClick?: (intent?: 'book' | 'message') => void;
 }) {
   const [active, setActive] = useState<CaseStudy | null>(null);
   const featured = CASE_STUDIES.filter((study) => study.featured !== false);
@@ -260,7 +257,7 @@ export default function CaseStudiesPreview({
           <div className="border-t border-line" aria-hidden />
         </div>
 
-        <FadeUp className="mt-14 sm:mt-16 flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 sm:gap-4">
+        <FadeUp className="mt-14 sm:mt-16 flex justify-center">
           <Link
             to="/work"
             className="group inline-flex items-center justify-center gap-2 px-7 py-3.5 bg-brand-yellow hover:bg-brand-yellow-hover text-brand-navy font-sans font-bold text-sm uppercase tracking-wider rounded-md transition-colors"
@@ -268,13 +265,6 @@ export default function CaseStudiesPreview({
             {CASE_STUDIES_SECTION.cta}
             <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
           </Link>
-          <SectionCta
-            onClick={onContactClick}
-            intent="message"
-            label="Contact us"
-            variant="link"
-            className="justify-center sm:justify-start px-2 py-3"
-          />
         </FadeUp>
       </div>
 

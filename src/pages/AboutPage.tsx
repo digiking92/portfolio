@@ -1,204 +1,211 @@
 import { Link } from 'react-router-dom';
 import { motion, useScroll, useTransform } from 'motion/react';
 import { useRef } from 'react';
-import {
-  ArrowRight,
-  ArrowUpRight,
-  Layers,
-  Route,
-  RefreshCw,
-} from 'lucide-react';
-import { ABOUT, VALUES, TESTIMONIALS, CASE_STUDIES } from '../data/ctopData';
+import { ArrowRight, Compass, Layers, RefreshCw, Route, Target } from 'lucide-react';
+import { ABOUT, VALUES } from '../data/ctopData';
 import SectionLabel from '../components/SectionLabel';
-import AmbientScene from '../components/AmbientScene';
 import FadeUp from '../components/motion/FadeUp';
 import MagneticButton from '../components/motion/MagneticButton';
 import CountUp from '../components/motion/CountUp';
-import TiltCard from '../components/motion/TiltCard';
 import IconWell from '../components/visual/IconWell';
-import ProblemVisual from '../components/visual/ProblemVisual';
-import HeroVisual from '../components/HeroVisual';
-import CaseStudyVisual from '../components/CaseStudyVisual';
+import AboutStoryVisual from '../components/about/AboutStoryVisual';
 import GrowthSystemDiagram from '../components/about/GrowthSystemDiagram';
-import ValueVisualPanel, {
-  type ValuePanelId,
-} from '../components/about/ValueVisualPanel';
+import ValueColorPanel, { type ValueTone } from '../components/about/ValueColorPanel';
+import AboutTestimonialSlider from '../components/about/AboutTestimonialSlider';
 
 interface AboutPageProps {
   onContactClick: (intent?: 'book' | 'message') => void;
 }
 
+const VALUE_TONES: ValueTone[] = [
+  'green',
+  'navy',
+  'purple',
+  'yellow',
+  'green',
+  'navy',
+  'purple',
+];
+
 const DIFFERENCE_ICONS = [Route, Layers, RefreshCw];
 
 export default function AboutPage({ onContactClick }: AboutPageProps) {
-  const featuredWork = CASE_STUDIES.filter((s) => s.featured !== false).slice(0, 3);
   const featuredValues = ABOUT.featuredValues
     .map((id) => VALUES.find((v) => v.id === id))
     .filter(Boolean) as typeof VALUES;
 
-  const processRef = useRef<HTMLDivElement>(null);
+  const manifestoRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
-    target: processRef,
-    offset: ['start 70%', 'end 40%'],
-  });
-  const processLine = useTransform(scrollYProgress, [0, 1], ['0%', '100%']);
-
-  const bridgeRef = useRef<HTMLElement>(null);
-  const { scrollYProgress: bridgeProgress } = useScroll({
-    target: bridgeRef,
+    target: manifestoRef,
     offset: ['start end', 'end start'],
   });
-  const bridgeGlowY = useTransform(bridgeProgress, [0, 1], [40, -40]);
+  const glowY = useTransform(scrollYProgress, [0, 1], [60, -60]);
+  const glowScale = useTransform(scrollYProgress, [0, 0.5, 1], [0.85, 1.1, 0.9]);
 
   return (
     <div className="pb-0">
-      {/* Scene 1 — Hero */}
-      <section className="section-navy relative overflow-hidden pt-28 sm:pt-32 pb-16 sm:pb-24">
-        <AmbientScene variant="aurora" intensity="medium" showGrain={false} />
-        <div className="absolute inset-0 bg-mesh-navy pointer-events-none opacity-70" />
-
-        <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-10 items-center">
-            <motion.div
-              initial={{ opacity: 0, y: 28 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-              className="lg:col-span-6 space-y-6 text-center lg:text-left"
-            >
-              <div className="flex justify-center lg:justify-start">
-                <SectionLabel>{ABOUT.eyebrow}</SectionLabel>
-              </div>
-              <h1 className="text-4xl sm:text-5xl lg:text-[3.25rem] font-display font-extrabold text-fg leading-[1.08] tracking-tight">
-                {ABOUT.headlineLines.map((line) => (
-                  <span key={line} className="block">
-                    {line}
-                  </span>
-                ))}
-              </h1>
-              <div className="space-y-3 max-w-md mx-auto lg:mx-0">
-                {ABOUT.body.map((paragraph) => (
-                  <p
-                    key={paragraph}
-                    className="text-fg/65 font-sans text-base sm:text-lg leading-relaxed"
-                  >
-                    {paragraph}
-                  </p>
-                ))}
-              </div>
-              <div className="pt-1 flex flex-col sm:flex-row items-center lg:items-start justify-center lg:justify-start gap-3">
-                <MagneticButton
-                  onClick={() => onContactClick('message')}
-                  strength={0.35}
-                  className="group inline-flex items-center gap-3 px-8 py-4 bg-brand-yellow hover:bg-brand-yellow-hover text-brand-navy font-sans font-bold text-sm uppercase tracking-widest rounded-md cursor-pointer"
-                >
-                  {ABOUT.primaryCta}
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                </MagneticButton>
-                <Link
-                  to="/work"
-                  className="inline-flex items-center gap-2 px-8 py-4 border border-white/25 bg-white/5 text-white font-sans font-bold text-sm uppercase tracking-widest rounded-md hover:border-brand-green/50 hover:bg-brand-green/10 transition-colors"
-                >
-                  {ABOUT.secondaryCta}
-                </Link>
-              </div>
-            </motion.div>
-
-            <FadeUp className="lg:col-span-6" delay={0.12}>
-              <TiltCard className="max-w-md mx-auto lg:max-w-none">
-                <HeroVisual variant="growth" />
-              </TiltCard>
-            </FadeUp>
-          </div>
-        </div>
-      </section>
-
-      {/* Scene 2 — Story + visual */}
-      <section className="py-20 sm:py-28 bg-bg border-t border-line relative overflow-hidden">
+      {/* Hero */}
+      <section className="relative min-h-[85vh] flex items-end overflow-hidden bg-brand-navy pt-28 pb-16 sm:pb-24">
         <div
-          className="absolute inset-0 pointer-events-none opacity-40"
+          className="absolute inset-0 opacity-[0.07] pointer-events-none"
           style={{
-            background:
-              'radial-gradient(ellipse 45% 40% at 85% 20%, rgba(74,222,128,0.1), transparent 55%)',
+            backgroundImage:
+              'linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px)',
+            backgroundSize: '64px 64px',
           }}
           aria-hidden
         />
-        <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
-            <FadeUp className="lg:col-span-5 space-y-6">
-              <SectionLabel>{ABOUT.storyEyebrow}</SectionLabel>
-              <h2 className="text-3xl sm:text-4xl font-display font-extrabold text-fg leading-tight">
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 0.08 }}
+          transition={{ duration: 1.2 }}
+          className="absolute top-[18%] left-0 right-0 text-center font-display font-extrabold text-[22vw] leading-none text-white select-none pointer-events-none tracking-tighter"
+          aria-hidden
+        >
+          CTOP
+        </motion.p>
+        <div
+          className="absolute top-1/3 right-[-10%] w-[50vw] max-w-xl aspect-square rounded-full bg-brand-green/20 blur-[120px] pointer-events-none"
+          aria-hidden
+        />
+
+        <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 w-full">
+          <motion.div
+            initial={{ opacity: 0, y: 36 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+            className="max-w-4xl mx-auto space-y-7 text-center"
+          >
+            <p className="brand-label text-brand-green">{ABOUT.eyebrow}</p>
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-display font-extrabold text-white leading-[1.08] tracking-tight max-w-5xl mx-auto">
+              {ABOUT.headlineLines.map((line) => (
+                <span key={line} className="block md:whitespace-nowrap">
+                  {line}
+                </span>
+              ))}
+            </h1>
+            <p className="text-white/60 font-sans text-base sm:text-lg leading-relaxed max-w-2xl mx-auto">
+              {ABOUT.body[0]}
+            </p>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
+              <MagneticButton
+                onClick={() => onContactClick('message')}
+                className="group inline-flex items-center gap-3 px-8 py-4 bg-brand-yellow hover:bg-brand-yellow-hover text-brand-navy font-sans font-bold text-sm uppercase tracking-widest rounded-md cursor-pointer"
+              >
+                {ABOUT.primaryCta}
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              </MagneticButton>
+              <Link
+                to="/work"
+                className="inline-flex items-center justify-center gap-2 px-8 py-4 border border-white/25 text-white font-sans font-bold text-sm uppercase tracking-widest rounded-md hover:border-brand-green/50 transition-colors"
+              >
+                {ABOUT.secondaryCta}
+              </Link>
+            </div>
+          </motion.div>
+
+        </div>
+      </section>
+
+      {/* How We Think — narrative + visual aligned */}
+      <section id="story" className="py-20 sm:py-28 bg-bg">
+        <div className="max-w-7xl mx-auto px-6 md:px-12">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
+            <FadeUp className="lg:col-span-5 space-y-5 sm:space-y-6">
+              <div className="flex items-center gap-3">
+                <span className="font-mono text-brand-green text-sm">01</span>
+                <SectionLabel>{ABOUT.storyEyebrow}</SectionLabel>
+              </div>
+              <h2 className="text-3xl sm:text-4xl lg:text-[2.75rem] font-display font-extrabold text-fg leading-[1.12]">
                 {ABOUT.storyHeadline}
               </h2>
-              <div className="space-y-2">
-                <p className="text-fg/45 font-sans text-base">{ABOUT.storyContrast.before}</p>
-                <p className="font-display font-extrabold text-fg text-2xl sm:text-3xl leading-snug">
+              <div className="space-y-1.5 border-l-2 border-brand-green pl-4 sm:pl-5">
+                <p className="text-fg/40 font-sans text-sm sm:text-base">
+                  {ABOUT.storyContrast.before}
+                </p>
+                <p className="font-display font-extrabold text-fg text-xl sm:text-2xl leading-snug">
                   {ABOUT.storyContrast.after}
                 </p>
               </div>
-              <p className="text-fg/70 font-sans text-base sm:text-lg leading-relaxed">
+              <p className="text-fg/70 font-sans text-base leading-relaxed">
                 {ABOUT.storyBody}
               </p>
-              <ul className="space-y-2.5 pt-1">
-                {ABOUT.storyQuestions.map((q) => (
-                  <li
-                    key={q}
-                    className="flex items-start gap-2.5 text-fg/85 font-display font-semibold text-sm sm:text-base"
-                  >
-                    <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-brand-green shrink-0" />
-                    {q}
-                  </li>
-                ))}
-              </ul>
-              <p className="font-display font-bold text-fg text-lg sm:text-xl leading-snug pt-2">
+              <p className="font-display font-bold text-fg text-xl sm:text-2xl leading-snug">
+                &ldquo;{ABOUT.storyQuote}&rdquo;
+              </p>
+              <p className="font-display font-semibold text-fg/85 text-base sm:text-lg leading-snug">
                 {ABOUT.storyPunch}
               </p>
             </FadeUp>
 
-            <FadeUp className="lg:col-span-7" delay={0.1}>
-              <ProblemVisual />
+            <FadeUp className="lg:col-span-7 lg:sticky lg:top-28" delay={0.08}>
+              <AboutStoryVisual />
             </FadeUp>
           </div>
+
+          <FadeUp className="mt-12 sm:mt-16 max-w-3xl space-y-5 border-t border-line pt-10">
+            {ABOUT.storyClose.map((paragraph) => (
+              <p
+                key={paragraph}
+                className="text-fg/70 font-sans text-base sm:text-lg leading-relaxed"
+              >
+                {paragraph}
+              </p>
+            ))}
+          </FadeUp>
         </div>
       </section>
 
-      {/* Scene 3 — Bridge manifesto */}
+      {/* Belief / manifesto */}
       <section
-        ref={bridgeRef}
-        className="section-navy relative overflow-hidden py-28 sm:py-36"
+        ref={manifestoRef}
+        id="belief"
+        className="relative overflow-hidden bg-brand-navy py-32 sm:py-44"
       >
-        <AmbientScene variant="green" intensity="low" showGrain={false} />
         <motion.div
-          style={{ y: bridgeGlowY }}
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[70vw] max-w-3xl aspect-square rounded-full bg-brand-green/15 blur-[100px] pointer-events-none"
+          style={{ y: glowY, scale: glowScale }}
+          className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vw] max-w-2xl aspect-square rounded-full bg-brand-green/25 blur-[100px] pointer-events-none"
           aria-hidden
         />
-        <div className="relative z-10 max-w-5xl mx-auto px-6 md:px-12 text-center space-y-8">
+        <div className="relative z-10 max-w-5xl mx-auto px-6 text-center space-y-8">
           <FadeUp>
-            <SectionLabel>{ABOUT.beliefEyebrow}</SectionLabel>
+            <div className="flex items-center justify-center gap-3">
+              <span className="font-mono text-brand-green text-sm">02</span>
+              <SectionLabel>{ABOUT.beliefEyebrow}</SectionLabel>
+            </div>
           </FadeUp>
-          <FadeUp delay={0.06} className="space-y-3 sm:space-y-4">
+          <FadeUp delay={0.04}>
+            <p className="text-white/55 font-sans text-lg sm:text-xl max-w-2xl mx-auto leading-relaxed">
+              {ABOUT.beliefHeadline}
+            </p>
+          </FadeUp>
+          <FadeUp delay={0.08} className="space-y-4">
             {ABOUT.manifestoLines.map((line) => (
               <p
                 key={line}
-                className="text-3xl sm:text-5xl md:text-6xl font-display font-extrabold text-fg leading-[1.12] tracking-tight"
+                className="text-3xl sm:text-5xl md:text-6xl font-display font-extrabold text-white leading-[1.1] tracking-tight"
               >
                 {line}
               </p>
             ))}
           </FadeUp>
-          <FadeUp delay={0.12}>
-            <p className="text-fg/55 font-sans text-base sm:text-lg max-w-lg mx-auto leading-relaxed">
+          <FadeUp delay={0.14} className="max-w-lg mx-auto space-y-3">
+            <p className="text-brand-green font-sans font-semibold text-sm sm:text-base">
+              {ABOUT.beliefSupportIntro}
+            </p>
+            <p className="text-white/50 font-sans text-base sm:text-lg leading-relaxed">
               {ABOUT.beliefSupport}
             </p>
           </FadeUp>
         </div>
       </section>
 
-      {/* Scene 4 — Interactive system diagram */}
-      <section className="py-20 sm:py-28 bg-bg border-t border-line relative overflow-hidden">
-        <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
-          <FadeUp className="max-w-xl mx-auto text-center space-y-4 mb-12 sm:mb-16">
-            <div className="flex justify-center">
+      {/* System diagram */}
+      <section id="system" className="py-20 sm:py-28 bg-bg">
+        <div className="max-w-7xl mx-auto px-6 md:px-12">
+          <FadeUp className="max-w-2xl mb-12 sm:mb-16 space-y-4">
+            <div className="flex items-center gap-3">
+              <span className="font-mono text-brand-green text-sm">03</span>
               <SectionLabel>{ABOUT.diagramEyebrow}</SectionLabel>
             </div>
             <h2 className="text-3xl sm:text-5xl font-display font-extrabold text-fg leading-tight">
@@ -214,11 +221,14 @@ export default function AboutPage({ onContactClick }: AboutPageProps) {
         </div>
       </section>
 
-      {/* Scene 5 — Differences (compact) */}
-      <section className="py-16 sm:py-24 bg-bg border-t border-line">
+      {/* Why Ctop */}
+      <section id="why" className="py-20 sm:py-28 bg-bg border-t border-line">
         <div className="max-w-7xl mx-auto px-6 md:px-12">
           <FadeUp className="max-w-xl mb-10 sm:mb-14 space-y-3">
-            <SectionLabel>{ABOUT.differenceEyebrow}</SectionLabel>
+            <div className="flex items-center gap-3">
+              <span className="font-mono text-brand-green text-sm">04</span>
+              <SectionLabel>{ABOUT.differenceEyebrow}</SectionLabel>
+            </div>
             <h2 className="text-3xl sm:text-4xl font-display font-extrabold text-fg leading-tight">
               {ABOUT.differenceHeadline}
             </h2>
@@ -228,18 +238,16 @@ export default function AboutPage({ onContactClick }: AboutPageProps) {
               const Icon = DIFFERENCE_ICONS[index] || Layers;
               return (
                 <FadeUp key={item.id} delay={index * 0.07}>
-                  <article className="group h-full rounded-2xl border border-line bg-bg-elevated p-6 sm:p-7 hover:border-brand-green/40 hover:-translate-y-1 hover:shadow-lg transition-all duration-300">
+                  <article className="group h-full rounded-2xl border border-line bg-bg-elevated p-6 sm:p-8 hover:border-brand-green/40 hover:-translate-y-1 transition-all duration-300">
                     <IconWell
                       tone={index === 1 ? 'yellow' : 'green'}
                       size="md"
-                      className="mb-5 border group-hover:rotate-6 transition-transform"
+                      className="mb-5 border"
                     >
                       <Icon className="w-4 h-4" strokeWidth={2.25} />
                     </IconWell>
-                    <h3 className="font-display font-bold text-fg text-lg sm:text-xl">
-                      {item.title}
-                    </h3>
-                    <p className="mt-2 text-fg/65 font-sans text-sm leading-relaxed">
+                    <h3 className="font-display font-bold text-fg text-xl">{item.title}</h3>
+                    <p className="mt-3 text-fg/65 font-sans text-sm sm:text-base leading-relaxed">
                       {item.description}
                     </p>
                   </article>
@@ -250,159 +258,46 @@ export default function AboutPage({ onContactClick }: AboutPageProps) {
         </div>
       </section>
 
-      {/* Scene 6 — Process timeline */}
-      <section className="py-20 sm:py-28 section-navy relative overflow-hidden border-t border-white/5">
-        <AmbientScene variant="aurora" intensity="low" showGrain={false} />
-        <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
-          <FadeUp className="max-w-xl mb-12 sm:mb-16 space-y-3">
-            <SectionLabel>{ABOUT.approachEyebrow}</SectionLabel>
-            <h2 className="text-3xl sm:text-4xl font-display font-extrabold text-fg leading-tight">
-              {ABOUT.approachHeadline}
-            </h2>
-          </FadeUp>
-
-          <div ref={processRef} className="relative">
-            <div
-              className="absolute left-4 sm:left-5 top-2 bottom-2 w-px bg-white/10"
-              aria-hidden
-            />
-            <motion.div
-              style={{ height: processLine }}
-              className="absolute left-4 sm:left-5 top-2 w-px bg-brand-green origin-top"
-              aria-hidden
-            />
-
-            <ol className="space-y-0">
-              {ABOUT.approachSteps.map((step, index) => (
-                <FadeUp key={step.id} delay={index * 0.05}>
-                  <li className="relative pl-14 sm:pl-16 py-6 sm:py-8 border-b border-white/8 last:border-0">
-                    <span className="absolute left-0 sm:left-1 top-7 sm:top-9 w-8 h-8 rounded-full border border-brand-green/50 bg-brand-navy text-brand-green font-display font-bold text-xs flex items-center justify-center">
-                      {String(index + 1).padStart(2, '0')}
-                    </span>
-                    <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-2">
-                      <h3 className="font-display font-extrabold text-fg text-2xl sm:text-3xl">
-                        {step.title}
-                      </h3>
-                      <p className="text-fg/55 font-sans text-sm sm:text-base">
-                        {step.description}
-                      </p>
-                    </div>
-                  </li>
-                </FadeUp>
-              ))}
-            </ol>
-          </div>
-        </div>
-      </section>
-
-      {/* Scene 7 — Selected work mockups */}
-      <section className="py-20 sm:py-28 bg-bg border-t border-line">
+      {/* Vision + Mission */}
+      <section className="py-16 sm:py-24 bg-bg border-t border-line">
         <div className="max-w-7xl mx-auto px-6 md:px-12">
-          <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 mb-12 sm:mb-16">
-            <FadeUp className="max-w-xl space-y-3">
-              <SectionLabel>{ABOUT.workEyebrow}</SectionLabel>
-              <h2 className="text-3xl sm:text-4xl font-display font-extrabold text-fg leading-tight">
-                {ABOUT.workHeadline}
-              </h2>
-              <p className="text-fg/65 font-sans text-base leading-relaxed">{ABOUT.workBody}</p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
+            <FadeUp>
+              <div className="h-full rounded-2xl border border-line bg-bg-elevated p-7 sm:p-10">
+                <IconWell tone="green" size="lg" className="mb-6 border">
+                  <Compass className="w-5 h-5" strokeWidth={2.25} />
+                </IconWell>
+                <SectionLabel>{ABOUT.visionEyebrow}</SectionLabel>
+                <h3 className="mt-4 font-display font-bold text-fg text-xl sm:text-2xl">
+                  {ABOUT.visionTitle}
+                </h3>
+                <p className="mt-4 text-fg/70 font-sans text-base leading-relaxed">{ABOUT.vision}</p>
+              </div>
             </FadeUp>
             <FadeUp delay={0.08}>
-              <Link
-                to="/work"
-                className="group inline-flex items-center gap-2 text-sm font-sans font-bold uppercase tracking-wider text-fg hover:text-brand-green transition-colors"
-              >
-                {ABOUT.workCta}
-                <ArrowUpRight className="w-4 h-4 text-brand-green group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-              </Link>
+              <div className="h-full rounded-2xl border border-line bg-bg-elevated p-7 sm:p-10">
+                <IconWell tone="yellow" size="lg" className="mb-6 border">
+                  <Target className="w-5 h-5" strokeWidth={2.25} />
+                </IconWell>
+                <SectionLabel>{ABOUT.missionEyebrow}</SectionLabel>
+                <h3 className="mt-4 font-display font-bold text-fg text-xl sm:text-2xl">
+                  {ABOUT.missionTitle}
+                </h3>
+                <p className="mt-4 text-fg/70 font-sans text-base leading-relaxed">{ABOUT.mission}</p>
+              </div>
             </FadeUp>
           </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-6">
-            {featuredWork.map((study, index) => (
-              <FadeUp key={study.id} delay={index * 0.08}>
-                <Link to="/work" className="block group">
-                  <TiltCard maxTilt={5} className="rounded-2xl overflow-hidden">
-                    <CaseStudyVisual
-                      title={study.client}
-                      category={
-                        study.kind === 'internal' ? 'Internal Venture' : study.category
-                      }
-                      image={study.image}
-                      accent={study.accentColor}
-                      index={index}
-                    />
-                  </TiltCard>
-                  <div className="mt-4 space-y-1">
-                    <h3 className="font-display font-bold text-fg text-lg group-hover:text-brand-green transition-colors">
-                      {study.client}
-                    </h3>
-                    <p className="text-fg/55 font-sans text-sm line-clamp-2">{study.subtitle}</p>
-                  </div>
-                </Link>
-              </FadeUp>
-            ))}
-          </div>
         </div>
       </section>
 
-      {/* Scene 8 — Metrics */}
-      <section className="py-20 sm:py-24 bg-bg border-t border-line relative overflow-hidden">
-        <div
-          className="absolute inset-0 pointer-events-none opacity-50"
-          style={{
-            background:
-              'radial-gradient(ellipse 40% 50% at 50% 100%, rgba(251,191,36,0.08), transparent 55%)',
-          }}
-          aria-hidden
-        />
-        <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
-          <FadeUp className="text-center space-y-3 mb-12 sm:mb-16">
-            <div className="flex justify-center">
-              <SectionLabel>{ABOUT.proofEyebrow}</SectionLabel>
-            </div>
-            <h2 className="text-3xl sm:text-4xl font-display font-extrabold text-fg">
-              {ABOUT.proofHeadline}
-            </h2>
-          </FadeUp>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 sm:gap-6">
-            {ABOUT.proofStats.map((stat, index) => (
-              <FadeUp key={stat.label} delay={index * 0.08}>
-                <div className="text-center space-y-2 py-4">
-                  <p className="text-5xl sm:text-6xl font-display font-extrabold text-fg tracking-tight">
-                    <CountUp value={stat.value} suffix={stat.suffix} />
-                  </p>
-                  <p className="brand-label !text-[11px] text-fg/45">{stat.label}</p>
-                </div>
-              </FadeUp>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Scene 9 — Sticky testimonial */}
-      <section className="section-navy py-24 sm:py-32 relative overflow-hidden border-t border-white/5">
-        <AmbientScene variant="green" intensity="low" showGrain={false} />
-        <div className="max-w-4xl mx-auto px-6 md:px-12 relative z-10 text-center">
-          <FadeUp className="space-y-8">
-            <span className="text-brand-green text-5xl font-display leading-none">&ldquo;</span>
-            <blockquote className="text-2xl sm:text-3xl md:text-4xl font-display font-bold text-fg leading-snug tracking-tight">
-              {TESTIMONIALS[0].quote}
-            </blockquote>
-            <footer className="pt-2">
-              <cite className="not-italic font-display font-bold text-fg text-base">
-                {TESTIMONIALS[0].author}
-              </cite>
-              <p className="mt-1 text-fg/50 font-sans text-sm">{TESTIMONIALS[0].role}</p>
-            </footer>
-          </FadeUp>
-        </div>
-      </section>
-
-      {/* Scene 10 — Values editorial alternating */}
-      <section className="py-20 sm:py-28 bg-bg border-t border-line">
+      {/* Values — focused four */}
+      <section id="values" className="py-20 sm:py-28 bg-bg border-t border-line">
         <div className="max-w-7xl mx-auto px-6 md:px-12">
-          <FadeUp className="max-w-xl mb-14 sm:mb-20 space-y-3">
-            <SectionLabel>{ABOUT.valuesEyebrow}</SectionLabel>
+          <FadeUp className="max-w-xl mb-12 sm:mb-16 space-y-3">
+            <div className="flex items-center gap-3">
+              <span className="font-mono text-brand-green text-sm">05</span>
+              <SectionLabel>{ABOUT.valuesEyebrow}</SectionLabel>
+            </div>
             <h2 className="text-3xl sm:text-5xl font-display font-extrabold text-fg leading-tight">
               {ABOUT.valuesHeadline}
             </h2>
@@ -411,60 +306,80 @@ export default function AboutPage({ onContactClick }: AboutPageProps) {
             </p>
           </FadeUp>
 
-          <div className="space-y-16 sm:space-y-24">
-            {featuredValues.map((value, index) => {
-              const visualLeft = index % 2 === 1;
-              const panelId = value.id as ValuePanelId;
-              return (
-                <div
-                  key={value.id}
-                  className={`grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center ${
-                    visualLeft ? '' : ''
-                  }`}
-                >
-                  <FadeUp
-                    className={`lg:col-span-5 space-y-4 ${
-                      visualLeft ? 'lg:order-2' : 'lg:order-1'
-                    }`}
-                  >
-                    <span className="brand-label !text-[11px] text-fg/40">
-                      {String(index + 1).padStart(2, '0')}
-                    </span>
-                    <h3 className="text-4xl sm:text-5xl md:text-6xl font-display font-extrabold text-fg tracking-tight">
-                      {value.title}
-                    </h3>
-                    <p className="text-fg/70 font-sans text-base sm:text-lg leading-relaxed max-w-md">
-                      {value.description}
-                    </p>
-                  </FadeUp>
-                  <FadeUp
-                    delay={0.08}
-                    className={`lg:col-span-7 ${visualLeft ? 'lg:order-1' : 'lg:order-2'}`}
-                  >
-                    <ValueVisualPanel id={panelId} />
-                  </FadeUp>
-                </div>
-              );
-            })}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5">
+            {featuredValues.map((value, i) => (
+              <div key={value.id}>
+                <ValueColorPanel
+                  index={i}
+                  title={value.title}
+                  description={value.description}
+                  tone={VALUE_TONES[i % VALUE_TONES.length]}
+                />
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Scene 11 — Minimal CTA */}
-      <section className="section-navy py-28 sm:py-36 relative overflow-hidden border-t border-white/5">
-        <AmbientScene variant="aurora" intensity="medium" showGrain={false} />
-        <div className="absolute inset-0 bg-mesh-navy pointer-events-none opacity-50" />
-        <div className="relative z-10 max-w-3xl mx-auto px-6 text-center space-y-8">
+      {/* Impact + auto slider */}
+      <section className="bg-brand-navy py-20 sm:py-28">
+        <div className="max-w-7xl mx-auto px-6 md:px-12">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+            <FadeUp className="lg:col-span-5 space-y-8">
+              <SectionLabel>{ABOUT.proofEyebrow}</SectionLabel>
+              <h2 className="text-3xl sm:text-4xl font-display font-extrabold text-white leading-tight">
+                {ABOUT.proofHeadline}
+              </h2>
+              <div className="space-y-6">
+                {ABOUT.proofStats.map((stat) => (
+                  <div
+                    key={stat.label}
+                    className="flex items-baseline justify-between gap-4 border-b border-white/10 pb-4"
+                  >
+                    <span className="text-4xl sm:text-5xl font-display font-extrabold text-white">
+                      <CountUp value={stat.value} suffix={stat.suffix} />
+                    </span>
+                    <span className="brand-label !text-[10px] text-white/40 text-right">
+                      {stat.label}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </FadeUp>
+
+            <FadeUp className="lg:col-span-7" delay={0.1}>
+              <AboutTestimonialSlider />
+            </FadeUp>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA — full copy */}
+      <section className="py-28 sm:py-36 bg-bg">
+        <div className="max-w-3xl mx-auto px-6 text-center space-y-8">
           <FadeUp className="space-y-5">
-            <SectionLabel>{ABOUT.ctaEyebrow}</SectionLabel>
+            <p className="brand-label text-brand-green">{ABOUT.ctaEyebrow}</p>
             <h2 className="text-3xl sm:text-5xl font-display font-extrabold text-fg leading-tight">
-              {ABOUT.ctaHeadline}
+              {ABOUT.ctaHeadlineLines.map((line) => (
+                <span key={line} className="block">
+                  {line}
+                </span>
+              ))}
             </h2>
+            <div className="space-y-3 max-w-xl mx-auto">
+              {ABOUT.ctaBody.map((paragraph) => (
+                <p
+                  key={paragraph}
+                  className="text-fg/60 font-sans text-base sm:text-lg leading-relaxed"
+                >
+                  {paragraph}
+                </p>
+              ))}
+            </div>
           </FadeUp>
           <FadeUp delay={0.08} className="flex flex-col sm:flex-row items-center justify-center gap-3">
             <MagneticButton
               onClick={() => onContactClick('book')}
-              strength={0.4}
               className="group inline-flex items-center gap-3 px-10 py-4 bg-brand-yellow hover:bg-brand-yellow-hover text-brand-navy font-sans font-bold text-sm uppercase tracking-widest rounded-md cursor-pointer"
             >
               {ABOUT.ctaPrimary}
@@ -472,7 +387,7 @@ export default function AboutPage({ onContactClick }: AboutPageProps) {
             </MagneticButton>
             <Link
               to="/work"
-              className="inline-flex items-center gap-2 px-8 py-4 border border-white/25 text-white font-sans font-bold text-sm uppercase tracking-widest rounded-md hover:border-brand-green/50 transition-colors"
+              className="inline-flex items-center gap-2 px-8 py-4 border border-line text-fg font-sans font-bold text-sm uppercase tracking-widest rounded-md hover:border-brand-green/50 transition-colors"
             >
               {ABOUT.ctaSecondary}
             </Link>
